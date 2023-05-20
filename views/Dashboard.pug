@@ -2,8 +2,22 @@ extends navbar.pug
 block content
     div(class="card-Container")
         div(class="Card")
-            div(class="location")
-                div(class="large-font font-bold") Regensburg
-                div(class="small-font") Lat: 49.018849
-                div(class="small-font") Lon: 12.106218
-            div(class="weather")
+            div(class="card-top-box")
+                div(class="location")
+                    div(class="large-font font-bold") Regensburg
+                    div(class="small-font") Lat: 49.018849
+                    div(class="small-font") Lon: 12.106218
+                div(class="weather")
+                    div(class="weather-box")
+                        div(class="medium-font font-bold") Weather
+                        img(class="icon" src="images/icons/cloud-rain-heavy-fill.svg" alt="Rain")
+                    div(class="small-font") 800
+            div(class="card-bottom-box font-color")
+                button(class="displayed-selector small-font font-bold" id="temp") Temperatur
+                button(class="displayed-selector small-font font-bold" id="wind") Wind
+                button(class="displayed-selector small-font font-bold" id="pressure") Luftdruck
+            div(class="card-bottom-content small-font font-bold")
+                div(id="temp-view") 32.5 Grad
+                div(id="wind-view") 15pft
+                div(id="pressure-view") 90 hpa
+    script(src="scripts/changeDisplayedInfo.js")

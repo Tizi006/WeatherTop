@@ -1,0 +1,72 @@
+.card-Container {
+    margin: 130px 30px 30px;
+    padding: 10px;
+    gap: 20px;
+}
+
+.card {
+    border-style: groove;
+    border-color: var(--Textcolor);
+    border-radius: 20px;
+    width: 33%;
+    height: 70vh;
+    padding: 10px;
+    background: url("../images/waves.svg"), url("../images/rain.jpg");
+    background-size: cover;
+    box-shadow: 12px 12px 12px gray;
+}
+
+.card-top-box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.card-bottom-box,.card-bottom-content{
+    position: relative;
+    top: 25vh;
+    display: flex;
+}
+.card-bottom-box{
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+.card-bottom-content{
+    padding: 20px 30px;
+}
+
+.weather-box {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.location, .weather {
+    color: white;
+}
+
+.weather {
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.icons {
+    height: 30px;
+    width: 30px;
+}
+
+.displayed-selector {
+    background: unset;
+    border-style: none;
+    z-index: 200;
+    text-underline-offset: 10px;
+}
+.displayed-selector:hover{
+    text-decoration: solid underline var(--Textcolor) ;
+}
+.active{
+    text-decoration: solid underline var(--Textcolor) ;
+}
+#wind-view,#pressure-view{
+    display: none;
+}
