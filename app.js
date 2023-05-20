@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const {urlencoded} = require("express");
 
 /* Reading global variables from config file */
 dotenv.config();
@@ -19,8 +20,11 @@ app.use(express.static("public"));
 app.set("views", "views");
 app.set("view engine", "pug");
 
-app.get('/', (req, res) => {
-    res.send("Hello weathertop!");
+app.get("/", function(request, response) {
+    response.render("Login");
+});
+app.get("/dashboard", function(request, response) {
+    response.render("Dashboard");
 });
 
 app.listen(PORT, function() {
