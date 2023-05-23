@@ -9,7 +9,6 @@ body {
     margin: 0;
     font-family: 'Oswald', sans-serif;
 }
-
 nav {
     position: fixed;
     display: flex;
@@ -22,35 +21,6 @@ nav {
     z-index: 100;
 }
 
-a {
-    color: var(--Textcolor);
-    text-underline-style: none;
-}
-
-.fill {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-}
-
-.fill img {
-    flex-shrink: 0;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-#background-waves {
-    position: fixed;
-    right: 0;
-    height: 100vh;
-    width: 130%;
-    z-index: 2;
-}
-
 #nav-background {
     position: fixed;
     left: 0;
@@ -60,6 +30,10 @@ a {
     z-index: 3;
 }
 
+a {
+    color: var(--Textcolor);
+    text-underline-style: none;
+}
 .font-bold {
     font-weight: 700;
 }
@@ -80,5 +54,3 @@ a {
 .font-color {
     color: var(--Textcolor);
 }
-
-

@@ -1,0 +1,53 @@
+@import "responsive.css";
+@import "standards.css";
+
+.detailed-card {
+    border-style: groove;
+    border-color: var(--Textcolor);
+    border-radius: 20px;
+    padding: 10px;
+    margin: 130px 40px 40px;
+    min-width: 930px;
+    background: url("../images/upperwaves.svg"), url("../images/sunset.jpg");
+    background-size: cover;
+    box-shadow: 12px 12px 12px gray;
+}
+
+.parameter-box {
+    display: flex;
+    flex-direction: column;
+    color: var(--Textcolor);
+}
+
+.detailed-card-parameter-box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 200px
+}
+
+.detailed-weather-box {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+table {
+    border-style: groove;
+    border-color: var(--Textcolor);
+    border-radius: 20px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 5px;
+    width: 100%
+}
+
+td,th {
+    text-align: start;
+    border-color: var(--Textcolor);
+    border-bottom-style: groove;
+    border-width: 1px;
+}
+th{
+    border-width: 2px;
+}

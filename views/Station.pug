@@ -1,4 +1,35 @@
 extends navbar.pug
 block content
     head
-        link(rel="stylesheet", href="../../styles/main.css")
+        link(rel="stylesheet", href="../../styles/station.css")
+    div(class="detailed-card")
+        div(class="detailed-card-parameter-box")
+            div(class="parameter-box")
+                div(class="large-font font-bold") Regensburg
+                div(class="small-font") Lat: 49.018849
+                div(class="small-font") Lon: 12.106218
+            div(class="parameter-box")
+                div(class="detailed-weather-box")
+                    div(class="large-font font-bold") Weather
+                div(class="small-font") 800
+            div(class="parameter-box")
+                div(class="large-font font-bold") Temperatur
+                div(class="small-font") 20.32 Grad
+            div(class="parameter-box")
+                div(class="large-font font-bold") Wind
+                div(class="small-font") 0.89 pft
+            div(class="parameter-box")
+                div(class="large-font font-bold") Luftdruck
+                div(class="small-font") 1016 hpa
+        table(class= "small-font")
+            tr
+                th Wetter
+                th Temperatur
+                th Wind
+                th Luftdruck
+            each set in data
+                tr
+                    td=set.wetter
+                    td=set.temp
+                    td=set.wind
+                    td=set.pressure

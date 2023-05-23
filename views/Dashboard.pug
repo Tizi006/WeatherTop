@@ -1,5 +1,7 @@
 extends navbar.pug
 block content
+    head
+        link(rel="stylesheet", href="../styles/firstlayer.css")
     div(class="card-Container")
         div(class="Card" id="card1")
             div(class="card-top-box")
@@ -10,7 +12,6 @@ block content
                 div(class="weather")
                     div(class="weather-box")
                         div(class="medium-font font-bold") Weather
-                        img(class="icon" src="images/icons/cloud-rain-heavy-fill.svg" alt="Rain")
                     div(class="small-font") 800
             div(class="card-bottom-box font-color")
                 button(class="displayed-selector small-font font-bold" data-target="temp") Temperatur
@@ -32,7 +33,6 @@ block content
                 div(class="weather")
                     div(class="weather-box")
                         div(class="medium-font font-bold") Weather
-                        img(class="icon" src="images/icons/cloud-rain-heavy-fill.svg" alt="Rain")
                     div(class="small-font") 600
             div(class="card-bottom-box font-color")
                 button(class="displayed-selector small-font font-bold" data-target="temp") Temperatur
@@ -53,7 +53,6 @@ block content
                 div(class="weather")
                     div(class="weather-box")
                         div(class="medium-font font-bold") Weather
-                        img(class="icon" src="images/icons/cloud-rain-heavy-fill.svg" alt="Rain")
                     div(class="small-font") 500
             div(class="card-bottom-box font-color")
                 button(class="displayed-selector small-font font-bold" data-target="temp") Temperatur
