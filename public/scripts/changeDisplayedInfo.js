@@ -1,42 +1,39 @@
-const tempbutton=document.getElementById("temp")
-const windbutton=document.getElementById("wind")
-const pressurebutton=document.getElementById("pressure")
-const tempview=document.getElementById("temp-view")
-const windview=document.getElementById("wind-view")
-const pressureview=document.getElementById("pressure-view")
-tempbutton.addEventListener("click",setTempView )
-windbutton.addEventListener("click", setWindView)
-pressurebutton.addEventListener("click", setPressureView)
-tempbutton.classList.add("active");
-function setTempView() {
-    console.log("temp in view");
-    windbutton.classList.remove("active");
-    tempbutton.classList.add("active");
-    pressurebutton.classList.remove("active");
+const cards = document.querySelectorAll('.card');
 
-    tempview.style.display="flex"
-    windview.style.display="none"
-    pressureview.style.display="none"
-}
+cards.forEach((card) => {
+    const buttons = card.querySelectorAll('.displayed-selector');
+    const dataElements = card.querySelectorAll('.card-data');
 
-function setWindView() {
-    console.log("wind in view");
-    windbutton.classList.add("active");
-    tempbutton.classList.remove("active");
-    pressurebutton.classList.remove("active");
+    buttons.forEach((button) => {
+        button.addEventListener('click', handleButtonClick);
+        if (button.dataset.target === 'temp') {
+            button.classList.add('active');
+        }
+    });
 
-    tempview.style.display="none"
-    windview.style.display="flex"
-    pressureview.style.display="none"
-}
+    // Set initial display to "none" for windview and pressureview
+    const windview = card.querySelector('.card-data[data-view="wind"]');
+    const pressureview = card.querySelector('.card-data[data-view="pressure"]');
+    windview.style.display = 'none';
+    pressureview.style.display = 'none';
 
-function setPressureView() {
-    console.log("Pressure in view");
-    windbutton.classList.remove("active");
-    tempbutton.classList.remove("active");
-    pressurebutton.classList.add("active");
+    function handleButtonClick(event) {
+        const target = event.currentTarget.dataset.target;
 
-    tempview.style.display="none"
-    windview.style.display="none"
-    pressureview.style.display="flex"
-}
+        buttons.forEach((button) => {
+            if (button.dataset.target === target) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+
+        dataElements.forEach((dataElement) => {
+            if (dataElement.dataset.view === target) {
+                dataElement.style.display = 'flex';
+            } else {
+                dataElement.style.display = 'none';
+            }
+        });
+    }
+});

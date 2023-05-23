@@ -1,30 +1,47 @@
 .card-Container {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
     margin: 130px 30px 30px;
     padding: 10px;
     gap: 20px;
+    row-gap: 60px;
 }
 
 .card {
     border-style: groove;
     border-color: var(--Textcolor);
     border-radius: 20px;
-    width: 33%;
+    width: 30%;
     height: 70vh;
     padding: 10px;
+    min-height: 300px;
+    min-width: 400px;
+    max-width: 650px;
+
+    box-shadow: 12px 12px 12px gray;
+}
+#card1{
+    background: url("../images/waves.svg"), url("../images/sunset.jpg");
+    background-size: cover;
+}
+#card2{
+    background: url("../images/waves.svg"), url("../images/snow.jpg");
+    background-size: cover;
+}
+#card3{
     background: url("../images/waves.svg"), url("../images/rain.jpg");
     background-size: cover;
-    box-shadow: 12px 12px 12px gray;
 }
 
 .card-top-box {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    height: 55%;
 }
 
 .card-bottom-box,.card-bottom-content{
-    position: relative;
-    top: 25vh;
     display: flex;
 }
 .card-bottom-box{
@@ -33,6 +50,7 @@
 }
 .card-bottom-content{
     padding: 20px 30px;
+    height: 27%;
 }
 
 .weather-box {
@@ -40,7 +58,12 @@
     flex-direction: row;
     gap: 20px;
 }
+.details{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 30px;
 
+}
 .location, .weather {
     color: white;
 }
@@ -60,6 +83,9 @@
     border-style: none;
     z-index: 200;
     text-underline-offset: 10px;
+}
+.card-data{
+
 }
 .displayed-selector:hover{
     text-decoration: solid underline var(--Textcolor) ;

@@ -1,7 +1,7 @@
 extends navbar.pug
 block content
     div(class="card-Container")
-        div(class="Card")
+        div(class="Card" id="card1")
             div(class="card-top-box")
                 div(class="location")
                     div(class="large-font font-bold") Regensburg
@@ -13,11 +13,56 @@ block content
                         img(class="icon" src="images/icons/cloud-rain-heavy-fill.svg" alt="Rain")
                     div(class="small-font") 800
             div(class="card-bottom-box font-color")
-                button(class="displayed-selector small-font font-bold" id="temp") Temperatur
-                button(class="displayed-selector small-font font-bold" id="wind") Wind
-                button(class="displayed-selector small-font font-bold" id="pressure") Luftdruck
+                button(class="displayed-selector small-font font-bold" data-target="temp") Temperatur
+                button(class="displayed-selector small-font font-bold" data-target="wind") Wind
+                button(class="displayed-selector small-font font-bold" data-target="pressure") Luftdruck
             div(class="card-bottom-content small-font font-bold")
-                div(id="temp-view") 32.5 Grad
-                div(id="wind-view") 15pft
-                div(id="pressure-view") 90 hpa
+                div(class="card-data" data-view="temp") 20.32 Grad
+                div(class="card-data" data-view="wind") 0.89 pft
+                div(class="card-data" data-view="pressure") 1016 hpa
+            a(class="details small-font" href="/stations/1") Details →
+
+
+        div(class="Card" id="card2")
+            div(class="card-top-box")
+                div(class="location")
+                    div(class="large-font font-bold") Kelheim
+                    div(class="small-font") Lat: 48.916838
+                    div(class="small-font") Lon: 11.879228
+                div(class="weather")
+                    div(class="weather-box")
+                        div(class="medium-font font-bold") Weather
+                        img(class="icon" src="images/icons/cloud-rain-heavy-fill.svg" alt="Rain")
+                    div(class="small-font") 600
+            div(class="card-bottom-box font-color")
+                button(class="displayed-selector small-font font-bold" data-target="temp") Temperatur
+                button(class="displayed-selector small-font font-bold" data-target="wind") Wind
+                button(class="displayed-selector small-font font-bold" data-target="pressure") Luftdruck
+            div(class="card-bottom-content small-font font-bold")
+                div(class="card-data" data-view="temp") 0.25 Grad
+                div(class="card-data" data-view="wind") 1.02 pft
+                div(class="card-data" data-view="pressure") 1002 hpa
+            a(class="details small-font" href="#") Details →
+
+        div(class="Card" id="card3")
+            div(class="card-top-box")
+                div(class="location")
+                    div(class="large-font font-bold") München
+                    div(class="small-font") Lat: 48.143797
+                    div(class="small-font") Lon: 11.565856
+                div(class="weather")
+                    div(class="weather-box")
+                        div(class="medium-font font-bold") Weather
+                        img(class="icon" src="images/icons/cloud-rain-heavy-fill.svg" alt="Rain")
+                    div(class="small-font") 500
+            div(class="card-bottom-box font-color")
+                button(class="displayed-selector small-font font-bold" data-target="temp") Temperatur
+                button(class="displayed-selector small-font font-bold" data-target="wind") Wind
+                button(class="displayed-selector small-font font-bold" data-target="pressure") Luftdruck
+            div(class="card-bottom-content small-font font-bold")
+                div(class="card-data" data-view="temp") 17.67 Grad
+                div(class="card-data" data-view="wind") 0.89 pft
+                div(class="card-data" data-view="pressure") 1017 hpa
+            a(class="details small-font" href="#") Details →
+
     script(src="scripts/changeDisplayedInfo.js")
