@@ -11,11 +11,6 @@
     background: url("../images/upperwaves.svg"), url("../images/sunset.jpg");
     background-size: cover;
     box-shadow: 12px 12px 12px gray;
-    animation: detailed-card-load 2s ease-out forwards;
-}
-@keyframes detailed-card-load {
-    0%{opacity: 0}
-    100%{opacity: 1}
 }
 
 .parameter-box {

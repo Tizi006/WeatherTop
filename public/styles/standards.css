@@ -8,8 +8,6 @@
 body {
     margin: 0;
     font-family: 'Oswald', sans-serif;
-    background: linear-gradient(0deg, rgba(255,210,144,1) 0%, rgba(175,229,244,1) 100%);
-    min-height: 100vh;
 }
 nav {
     position: fixed;
