@@ -19,12 +19,26 @@
     position: fixed;
     right: 0;
     top: 0;
-    width: 130%;
+    width: 100%;
     height: 100%;
     z-index: 2;
+    animation: move-in 3s ease-in-out forwards;
+    background-image: url("../images/rain.jpg");
+    background-size: cover;
+}
+@keyframes move-in {
+    0% {width: 400%}
+    100%{ width: 100%}
+}
+.login-box{
+    animation: load-login 1s ease-in-out forwards;
+    animation-delay: 2.5s;
 }
 
-
+@keyframes load-login {
+    0% {opacity: 0}
+    100%{opacity: 100}
+}
 
 
 
