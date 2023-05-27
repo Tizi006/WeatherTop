@@ -1,24 +1,25 @@
-const cards = document.querySelectorAll('.card');
-
-cards.forEach((card) => {
+const cards =(document.querySelectorAll('.card'));
+cards.forEach((card, index) => {
     const buttons = card.querySelectorAll('.displayed-selector');
     const dataElements = card.querySelectorAll('.card-data');
 
+    // Set initial display to "none" for windview and pressureview
+    const windview = card.querySelector('.wind-data');
+    const pressureview = card.querySelector('.pressure-data');
+    windview.style.display = 'none';
+    pressureview.style.display = 'none';
+
     buttons.forEach((button) => {
-        button.addEventListener('click', handleButtonClick);
         if (button.dataset.target === 'temp') {
             button.classList.add('active');
         }
     });
 
-    // Set initial display to "none" for windview and pressureview
-    const windview = card.querySelector('.card-data[data-view="wind"]');
-    const pressureview = card.querySelector('.card-data[data-view="pressure"]');
-    windview.style.display = 'none';
-    pressureview.style.display = 'none';
+    card.addEventListener('click', (event) => {
+        const targetButton = event.target.closest('.displayed-selector');
+        if (!targetButton) return;
 
-    function handleButtonClick(event) {
-        const target = event.currentTarget.dataset.target;
+        const target = targetButton.dataset.target;
 
         buttons.forEach((button) => {
             if (button.dataset.target === target) {
@@ -29,15 +30,14 @@ cards.forEach((card) => {
         });
 
         dataElements.forEach((dataElement) => {
-            if (dataElement.dataset.view === target) {
+            if (dataElement.classList.contains(`${target}-data`)) {
                 dataElement.style.display = 'flex';
             } else {
                 dataElement.style.display = 'none';
             }
         });
-    }
-    //handles animation
-    cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.4}s`;
     });
+
+    // Handles animation
+    card.style.animationDelay = `${index * 0.4}s`;
 });

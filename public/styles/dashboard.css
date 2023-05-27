@@ -16,11 +16,14 @@
     height: 70vh;
     padding: 10px;
     min-height: 300px;
+    max-height: 600px;
     min-width: 400px;
     max-width: 650px;
     box-shadow: 12px 12px 12px gray;
     opacity: 0;
     animation: card-load 2s ease-in-out forwards;
+    background: url("../images/waves.svg"), url("../images/sunset.jpg");
+    background-size: cover;
 }
 
 @keyframes card-load {
@@ -32,18 +35,6 @@
     100% {
         opacity: 1;
     }
-}
-#card1{
-    background: url("../images/waves.svg"), url("../images/sunset.jpg");
-    background-size: cover;
-}
-#card2{
-    background: url("../images/waves.svg"), url("../images/snow.jpg");
-    background-size: cover;
-}
-#card3{
-    background: url("../images/waves.svg"), url("../images/rain.jpg");
-    background-size: cover;
 }
 
 .card-top-box {
