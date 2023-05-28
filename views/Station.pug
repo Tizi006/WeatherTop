@@ -6,22 +6,22 @@ block content
     div(class="detailed-card")
         div(class="detailed-card-parameter-box")
             div(class="parameter-box")
-                div(class="large-font font-bold") Regensburg
-                div(class="small-font") Lat: 49.018849
-                div(class="small-font") Lon: 12.106218
+                div(class="large-font font-bold")=data[0].name
+                div(class="small-font")=`Lat: ${data[0].lat}`
+                div(class="small-font")=`Lon: ${data[0].lon}`
             div(class="parameter-box")
                 div(class="detailed-weather-box")
                     div(class="large-font font-bold") Weather
-                div(class="small-font") 800
+                div(class="small-font weather-code")=data[0].weathercode
             div(class="parameter-box")
                 div(class="large-font font-bold") Temperatur
-                div(class="small-font") 20.32 Grad
+                div(class="small-font")=`${data[0].temperature} Grad`
             div(class="parameter-box")
                 div(class="large-font font-bold") Wind
-                div(class="small-font") 0.89 pft
+                div(class="small-font")=`${data[0].wind} pft`
             div(class="parameter-box")
                 div(class="large-font font-bold") Luftdruck
-                div(class="small-font") 1016 hpa
+                div(class="small-font")=`${data[0].pressure} hpa`
         table(class= "small-font")
             tr
                 th Wetter
@@ -30,7 +30,8 @@ block content
                 th Luftdruck
             each set in data
                 tr
-                    td=set.wetter
-                    td=set.temp
+                    td=set.weathercode
+                    td=set.temperature
                     td=set.wind
                     td=set.pressure
+    script(src="../scripts/changeImages.js")

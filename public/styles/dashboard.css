@@ -22,7 +22,6 @@
     box-shadow: 12px 12px 12px gray;
     opacity: 0;
     animation: card-load 2s ease-in-out forwards;
-    background: url("../images/waves.svg"), url("../images/sunset.jpg");
     background-size: cover;
 }
 

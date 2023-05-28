@@ -8,7 +8,6 @@
     padding: 10px;
     margin: 130px 40px 40px;
     min-width: 930px;
-    background: url("../images/upperwaves.svg"), url("../images/sunset.jpg");
     background-size: cover;
     box-shadow: 12px 12px 12px gray;
     animation: detailed-card-load 2s ease-out forwards;

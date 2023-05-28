@@ -23,7 +23,7 @@
     height: 100%;
     z-index: -2;
     animation: move-in 3s ease-in-out forwards;
-    background-image: url("../images/rain.jpg");
+    background-image: url("../images/thunderstrom.jpg");
     background-size: cover;
 }
 @keyframes move-in {

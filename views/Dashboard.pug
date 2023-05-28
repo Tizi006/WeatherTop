@@ -8,13 +8,13 @@ block content
             div(class="Card")
                 div(class="card-top-box")
                     div(class="location")
-                        div(class="large-font font-bold")=`${set.name}`
+                        div(class="large-font font-bold")=set.name
                         div(class="small-font")=`Lat: ${set.lat}`
                         div(class="small-font")=`Lon: ${set.lon}`
                     div(class="weather")
                         div(class="weather-box")
                             div(class="medium-font font-bold") Weather
-                        div(class="small-font")=`${set.weathercode}`
+                        div(class="small-font weather-code")=set.weathercode
                 div(class="card-bottom-box font-color")
                     button(class="displayed-selector small-font font-bold" data-target="temp") Temperatur
                     button(class="displayed-selector small-font font-bold" data-target="wind") Wind
@@ -23,5 +23,6 @@ block content
                     div(class="card-data temp-data")=`${set.temperature} Grad`
                     div(class="card-data wind-data")=`${set.wind} pft`
                     div(class="card-data pressure-data")=`${set.pressure} hpa`
-                a(class="details small-font" href="/stations/1") Details →
+                a(class="details small-font" href=`/stations/${set.station_id}`) Details →
+            script
     script(src="scripts/changeDisplayedInfo.js")

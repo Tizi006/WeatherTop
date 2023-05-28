@@ -31,21 +31,19 @@ app.get("/", function (request, response) {
 });
 app.get("/dashboard", function (request, response) {
     dbClient.query("select * from stations s join weatherdata w on s.id =w.station_id WHERE w.id IN (SELECT MIN(id) FROM weatherdata GROUP BY station_id);", function (dbError, dbResponse) {
+
             response.render("Dashboard",{data:dbResponse.rows});
     })
 
 });
 app.get("/stations/1", function (request, response) {
-    let data = [{wetter: "800", temp: "20.32", wind: "0.89", pressure: "1016"},
-        {wetter: "800", temp: "20.32", wind: "0.89", pressure: "1016"},
-        {wetter: "400", temp: "32.5", wind: "15", pressure: "90"},
-        {wetter: "400", temp: "32.5", wind: "15", pressure: "90"},
-        {wetter: "800", temp: "11.16", wind: "2.23", pressure: "1024"},
-        {wetter: "800", temp: "11.16", wind: "2.23", pressure: "1024"},
-        {wetter: "800", temp: "-6.14", wind: "1.15", pressure: "1027"}]
-    response.render("Station.pug", {data: data});
+    dbClient.query("select * from stations s join weatherdata w on s.id =w.station_id where station_id =1;", function (dbError, dbResponse) {
+        response.render("Station",{data:dbResponse.rows});
+    })
 });
 
 app.listen(PORT, function () {
     console.log(`Weathertop running and listening on port ${PORT}`);
 });
+
+
