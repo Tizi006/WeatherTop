@@ -31,14 +31,17 @@ app.get("/", function (request, response) {
 });
 app.get("/dashboard", function (request, response) {
     dbClient.query("select * from stations s join weatherdata w on s.id =w.station_id WHERE w.id IN (SELECT MIN(id) FROM weatherdata GROUP BY station_id);", function (dbError, dbResponse) {
-
-            response.render("Dashboard",{data:dbResponse.rows});
+            response.render("Dashboard", {data: dbResponse.rows});
     })
-
 });
-app.get("/stations/1", function (request, response) {
-    dbClient.query("select * from stations s join weatherdata w on s.id =w.station_id where station_id =1;", function (dbError, dbResponse) {
-        response.render("Station",{data:dbResponse.rows});
+app.get("/stations/:id", function (request, response) {
+    dbClient.query("select * from stations s join weatherdata w on s.id =w.station_id where station_id =$1;", [request.params.id], function (dbError, dbResponse) {
+        if(dbResponse.rows.length===0){
+            response.render("error",{text:"Ups! Station nicht gefunden"});
+        }
+        else {
+            response.render("Station", {data: dbResponse.rows});
+        }
     })
 });
 

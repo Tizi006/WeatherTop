@@ -41,6 +41,7 @@ cards.forEach((card, index) => {
     // Handles animation
     card.style.animationDelay = `${index * 0.4}s`;
 
+    // Handles background
     let img;
     const weathercode=  card.querySelector('.weather-code').textContent;
         switch (weathercode) {
@@ -63,7 +64,6 @@ cards.forEach((card, index) => {
                 img = "../images/sunset.jpg";
                 break;
         }
-
         const cardId = `card-${index}`;
         card.setAttribute('id', cardId);
         document.getElementById(cardId).style.backgroundImage = `url("../images/waves.svg"), url(${img})`;
