@@ -23,6 +23,15 @@ block content
                     div(class="card-data temp-data")=`${set.temperature} Grad`
                     div(class="card-data wind-data")=`${set.wind} pft`
                     div(class="card-data pressure-data")=`${set.pressure} hpa`
-                a(class="details small-font" href=`/stations/${set.station_id}`) Details →
-            script
+                a(class="details small-font" href=`/stations/`) Details →
+        div(class="Card medium-font" id="new-card")
+            form(action="/dashboard" method="post")
+                label(for="titel") Name Wetterstation
+                input(type="text" name="titel" class="input-field small-font" id="titel")
+                label(for="lat") Breitengrad
+                input(type="text" name="lat" class="input-field small-font" id="lat")
+                label(for="lon") Längengrad
+                input(type="text" name="lon" class="input-field small-font" id="lon")
+                input(type="submit" value="Station hinzufügen" class="submit-button small-font")
+
     script(src="scripts/changeDisplayedInfo.js")

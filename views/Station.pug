@@ -24,12 +24,14 @@ block content
                 div(class="small-font")=`${data[0].pressure} hpa`
         table(class= "small-font")
             tr
+                th Zeitpunkt
                 th Wetter
                 th Temperatur
                 th Wind
                 th Luftdruck
             each set in data
                 tr
+                    td=set.time
                     td=set.weathercode
                     td=set.temperature
                     td=set.wind

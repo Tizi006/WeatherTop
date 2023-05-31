@@ -25,12 +25,18 @@
     background-size: cover;
 }
 
+#new-card {
+    background: radial-gradient(circle, rgba(156, 156, 156, 1) 0%, rgba(244, 244, 244, 1) 100%);
+}
+
 @keyframes card-load {
     0% {
         opacity: 0;
         transform: translateY(10%);
     }
-    50%{ transform: translate(0)}
+    50% {
+        transform: translate(0)
+    }
     100% {
         opacity: 1;
     }
@@ -43,14 +49,16 @@
     height: 55%;
 }
 
-.card-bottom-box,.card-bottom-content{
+.card-bottom-box, .card-bottom-content {
     display: flex;
 }
-.card-bottom-box{
+
+.card-bottom-box {
     justify-content: space-evenly;
     flex-direction: row;
 }
-.card-bottom-content{
+
+.card-bottom-content {
     padding: 20px 30px;
     height: 27%;
 }
@@ -60,12 +68,14 @@
     flex-direction: row;
     gap: 20px;
 }
-.details{
+
+.details {
     display: flex;
     justify-content: flex-end;
     margin-right: 30px;
 
 }
+
 .location, .weather {
     color: white;
 }
@@ -86,15 +96,40 @@
     z-index: 200;
     text-underline-offset: 10px;
 }
-.card-data{
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 50px;
+}
+
+.input-field,.submit-button {
+    height: 50px;
+    background: rgba(255, 255, 255, 0.4);
+    border-style: solid;
+    border-width: 3px;
+    border-color: var(--BackgroundColor);
+    border-radius: 5px;
 
 }
-.displayed-selector:hover{
-    text-decoration: solid underline var(--Textcolor) ;
+
+.input-field:focus {
+    outline: 2px solid var(--Textcolor);
 }
-.active{
-    text-decoration: solid underline var(--Textcolor) ;
+
+.submit-button {
+    margin-top: 30px;
 }
-#wind-view,#pressure-view{
+
+.displayed-selector:hover {
+    text-decoration: solid underline var(--Textcolor);
+}
+
+.active {
+    text-decoration: solid underline var(--Textcolor);
+}
+
+#wind-view, #pressure-view {
     display: none;
 }
