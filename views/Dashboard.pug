@@ -23,7 +23,11 @@ block content
                     div(class="card-data temp-data")=`${set.temperature} Grad`
                     div(class="card-data wind-data")=`${set.wind} pft`
                     div(class="card-data pressure-data")=`${set.pressure} hpa`
-                a(class="details small-font" href=`/stations/${set.id}`) Details →
+                div(class="actions")
+                    a(href=`/stations/${set.id}`)
+                        img(src="/images/icons/folder.svg" class="actions")
+                    a(href=`/stations/delete/${set.id}`)
+                        img(src="/images/icons/trash3.svg" class="actions")
         div(class="Card medium-font" id="new-card")
             form(action="/dashboard" method="post")
                 label(for="titel") Name Wetterstation

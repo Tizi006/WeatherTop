@@ -60,7 +60,7 @@
 
 .card-bottom-content {
     padding: 20px 30px;
-    height: 27%;
+    height: 22%;
 }
 
 .weather-box {
@@ -69,10 +69,12 @@
     gap: 20px;
 }
 
-.details {
+.actions {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 30px;
+    justify-content: flex-start;
+    margin-left: 10px;
+    gap: 10px;
+    height: 40px;
 
 }
 

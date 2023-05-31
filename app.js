@@ -43,7 +43,6 @@ app.get("/dashboard", function (request, response) {
         }
     );
 });
-
 app.post("/dashboard", urlencodedParser, function (request, response) {
     if (request.body.titel !== "" && request.body.lat !== "" && request.body.lon !== "") {
         dbClient.query("insert into stations (name, lon, lat,user_id) values ($1,$2,$3,$4)", [request.body.titel, request.body.lat, request.body.lon, 1],
@@ -87,6 +86,20 @@ app.get("/stations/:id", function (request, response) {
                 }
             })
         })
+});
+app.get("/stations/delete/:id", function (request, response) {
+    dbClient.query("select user_id from stations where id=$1", [request.params.id],async function (dbError, dbResponseUser) {
+        if (dbResponseUser.rows.length === 0) {
+            response.render("error", {text: "Ups! Station nicht gefunden"});
+        } else {
+            if (dbResponseUser.rows[0].user_id === 1) {
+                console.log(request.params.id)
+                dbClient.query(" delete from stations where id=$1", [request.params.id])
+                 await dbClient.query(" delete from weatherdata where station_id=$1",[request.params.id])
+            }
+        }
+        response.redirect("/dashboard");
+    })
 });
 
 app.listen(PORT, function () {
