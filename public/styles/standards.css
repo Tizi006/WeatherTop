@@ -20,7 +20,7 @@ nav {
     gap: 20px;
     align-items: center;
     color: var(--Textcolor);
-    z-index: 100;
+
 }
 
 #nav-background {
@@ -36,6 +36,12 @@ a {
     color: var(--Textcolor);
     text-underline-style: none;
 }
+.invisible {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
 .font-bold {
     font-weight: 700;
 }

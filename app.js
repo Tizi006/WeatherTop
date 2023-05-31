@@ -31,72 +31,62 @@ app.set("view engine", "pug");
 app.get("/", function (request, response) {
     response.render("Login");
 });
-app.get("/dashboard", renderDashboard)
-app.post("/dashboard", urlencodedParser, function (request, response) {
-    const titel = request.params.titel;
-    const lat = request.params.lat;
-    const lon = request.params.lon;
-    //  if(titel!=null&&lat!=null&&lon!=null){
-    dbClient.query("insert into stations (name, lon, lat,user_id) values ('bob',49.99,40.00,1)")
-    //  }
-    renderDashboard(request, response);
-});
-
-function renderDashboard(request, response) {
-    let stations, values;
-
+app.get("/dashboard", function (request, response) {
     dbClient.query(
-        "SELECT name, lon, lat FROM stations WHERE user_id = 1",
-        function (dbError, dbResponse) {
+        "SELECT s.id, s.name,s.lat,s.lon, j.weathercode, j.temperature, j.wind, j.pressure FROM stations s LEFT JOIN ( SELECT station_id, weathercode, temperature, wind, pressure, time  FROM weatherdata w WHERE (station_id, time) IN (  SELECT station_id, MAX(time)  FROM weatherdata GROUP BY station_id  )  ) j ON s.id = j.station_id;",
+        function (dbError, dbResponseStations) {
             if (dbError) {
                 console.error(dbError);
                 return;
             }
-
-            stations = dbResponse.rows;
-
-            dbClient.query(
-                "SELECT w.station_id, weathercode, temperature, wind, pressure FROM stations s LEFT JOIN weatherdata w ON s.id = w.station_id WHERE w.id IN (SELECT MIN(id) FROM weatherdata GROUP BY station_id)",
-                function (dbError, dbResponse) {
-                    if (dbError) {
-                        console.error(dbError);
-                        return;
-                    }
-
-                    values = dbResponse.rows;
-                    const data = mergeArrays(stations, values);
-                    response.render("Dashboard", { data: data });
-                }
-            );
+            response.render("Dashboard", {data: dbResponseStations.rows});
         }
     );
-}
+});
 
-function mergeArrays(stations, values) {
-    const mergedData = [];
-
-    for (const station of stations) {
-        const matchingValue = values.find((value) => value.station_id === station.id);
-        const data = {
-            ...station,
-            ...(matchingValue || { weathercode: 0, temperature: 0, wind: 0, pressure: 0 }),
-        };
-        mergedData.push(data);
+app.post("/dashboard", urlencodedParser, function (request, response) {
+    if (request.body.titel !== "" && request.body.lat !== "" && request.body.lon !== "") {
+        dbClient.query("insert into stations (name, lon, lat,user_id) values ($1,$2,$3,$4)", [request.body.titel, request.body.lat, request.body.lon, 1],
+            function (dbError, dbResponse) {
+                if (dbError) {
+                    console.error(dbError);
+                }
+            })
     }
-
-    return mergedData;
-}
-
-
+    response.redirect("/dashboard");
+});
 
 app.get("/stations/:id", function (request, response) {
-    dbClient.query("select * from stations s join weatherdata w on s.id =w.station_id where station_id =$1 order by time desc", [request.params.id], function (dbError, dbResponse) {
-        if (dbResponse.rows.length === 0) {
-            response.render("error", {text: "Ups! Station nicht gefunden"});
-        } else {
-            response.render("Station", {data: dbResponse.rows});
-        }
-    })
+    dbClient.query("select station_id,user_id,name,lon,lat,weathercode ,temperature ,wind ,pressure ,time from stations s join weatherdata w on s.id =w.station_id where station_id =$1 order by time desc", [request.params.id],
+        function (dbError, dbResponse) {
+            dbClient.query("select user_id from stations where id=$1", [request.params.id], function (dbError, dbResponseUser) {
+                if (dbResponseUser.rows.length === 0) {
+                    response.render("error", {text: "Ups! Station nicht gefunden"});
+                } else {
+                    if (dbResponseUser.rows[0].user_id === 1) {
+                        if (dbResponse.rows.length === 0) {
+                            const d = []
+                            d.push({
+                                station_id: "undefined",
+                                name: "undefined",
+                                lon: "undefined",
+                                lat: "undefined",
+                                weathercode: "undefined",
+                                temperature: "undefined",
+                                wind: "undefined",
+                                pressure: "undefined",
+                                time: "undefined"
+                            });
+                            response.render("Station", {data: d});
+                        } else {
+                            response.render("Station", {data: dbResponse.rows});
+                        }
+                    } else {
+                        response.render("error", {text: "Ups! Station gehört einen anderen User"});
+                    }
+                }
+            })
+        })
 });
 
 app.listen(PORT, function () {

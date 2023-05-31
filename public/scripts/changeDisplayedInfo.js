@@ -70,3 +70,4 @@ cards.forEach((card, index) => {
         document.getElementById(cardId).style.backgroundImage = `url("../images/waves.svg"), url(${img})`;
     }
 );
+
