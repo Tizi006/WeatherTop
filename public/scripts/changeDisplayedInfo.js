@@ -58,6 +58,9 @@ cards.forEach((card, index) => {
             case "600": //Snow
                 img = "../images/snow.jpg";
                 break;
+            case "700": //mist
+                img = "../images/mist.jpg";
+                break;
             case "800": //clear
                 img = "../images/cloudy.jpg";
                 break;

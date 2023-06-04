@@ -1,10 +1,13 @@
 @import "responsive.css";
 @import "standards.css";
 
-.detailed-card {
+.detailed-card,table,.blur-box,input{
     border-style: groove;
     border-color: var(--Textcolor);
     border-radius: 20px;
+}
+
+.detailed-card {
     padding: 10px;
     margin: 130px 40px 40px;
     min-width: 930px;
@@ -35,12 +38,8 @@
     flex-direction: row;
     gap: 20px;
 }
-
-table {
-    border-style: groove;
-    border-color: var(--Textcolor);
-    border-radius: 20px;
-    -webkit-backdrop-filter: blur(10px);
+/*table*/
+table,.blur-box {
     backdrop-filter: blur(10px);
     padding: 5px;
     width: 100%
@@ -54,4 +53,28 @@ td,th {
 }
 th{
     border-width: 2px;
+}
+/*input*/
+.input-field {
+    margin-right: 50px;
+    margin-top: 5px;
+    width: 100%;
+    height: 40px;
+
+}
+.submit-button{
+  margin-top: 20px;
+    height: 50px;
+    width: 100%
+}
+.blur-box{
+   margin-top: 50px;
+    padding: 15px;
+    width: inherit;
+
+}
+.input-values{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }

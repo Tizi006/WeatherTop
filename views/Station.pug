@@ -6,9 +6,9 @@ block content
     div(class="detailed-card")
         div(class="detailed-card-parameter-box")
             div(class="parameter-box")
-                div(class="large-font font-bold")=data[0].name
-                div(class="small-font")=`Lat: ${data[0].lat}`
-                div(class="small-font")=`Lon: ${data[0].lon}`
+                div(class="large-font font-bold")=station.name
+                div(class="small-font")=`Lat: ${station.lat}`
+                div(class="small-font")=`Lon: ${station.lon}`
             div(class="parameter-box")
                 div(class="detailed-weather-box")
                     div(class="large-font font-bold") Weather
@@ -36,4 +36,17 @@ block content
                     td=set.temperature
                     td=set.wind
                     td=set.pressure
+        form(action=`/stations/${station.id}` method="post" class="blur-box small-font font-bold")
+            div(class="input-values")
+                label(for="code") Code
+                    input(type="text" name="code" class="input-field small-font" id="code")
+                label(for="temp") Temperatur
+                    input(type="text" name="temp" class="input-field small-font" id="temp")
+                label(for="wind") Windgeschwindigkeit
+                    input(type="text" name="wind" class="input-field small-font" id="wind")
+                label(for="winddir") Windrichtung
+                    input(type="text" name="winddir" class="input-field small-font" id="winddir")
+                label(for="pressure") Luftdruck
+                    input(type="text" name="pressure" class="input-field small-font" id="pressure")
+            input(type="submit" value="Station hinzufügen" class="submit-button small-font")
     script(src="../scripts/changeImages.js")

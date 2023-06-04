@@ -105,19 +105,8 @@ form {
     gap: 10px;
     margin: 50px;
 }
-
 .input-field,.submit-button {
     height: 50px;
-    background: rgba(255, 255, 255, 0.4);
-    border-style: solid;
-    border-width: 3px;
-    border-color: var(--BackgroundColor);
-    border-radius: 5px;
-
-}
-
-.input-field:focus {
-    outline: 2px solid var(--Textcolor);
 }
 
 .submit-button {
