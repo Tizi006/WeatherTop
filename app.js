@@ -67,8 +67,9 @@ app.get("/stations/delete/:id", function (request, response) {
         response.redirect("/dashboard");
     })
 });
+
 app.get("/stations/:id", function (request, response) {
-    dbClient.query("select weathercode ,temperature ,wind ,pressure ,time from stations s join weatherdata w on s.id =w.station_id where station_id =$1 order by time desc", [request.params.id],
+    dbClient.query("select w.id, weathercode ,temperature ,wind ,pressure ,time from stations s join weatherdata w on s.id =w.station_id where station_id =$1 order by time desc", [request.params.id],
         function (dbError, dbResponse) {
             dbClient.query("select * from stations where id=$1", [request.params.id], function (dbError, dbResponseStation) {
                 if (dbResponseStation.rows.length === 0) {
@@ -78,6 +79,7 @@ app.get("/stations/:id", function (request, response) {
                         if (dbResponse.rows.length === 0) {
                             const d = []
                             d.push({
+                                id: "",
                                 weathercode: "undefined",
                                 temperature: "undefined",
                                 wind: "undefined",
@@ -95,7 +97,6 @@ app.get("/stations/:id", function (request, response) {
             })
         })
 });
-
 app.post("/stations/:id", urlencodedParser, function (request, response) {
     if (request.body.code!== "" && request.body.temp !== "" && request.body.wind !== ""&& request.body.winddir !== ""&& request.body.pressure !== "") {
     dbClient.query("insert into weatherdata (station_id,weathercode,temperature,wind,winddirection,pressure) values($1,$2,$3,$4,$5,$6)",[request.params.id,request.body.code, request.body.temp, request.body.wind,request.body.winddir,request.body.pressure],
@@ -106,6 +107,18 @@ app.post("/stations/:id", urlencodedParser, function (request, response) {
         })
     }
     response.redirect(`/stations/${request.params.id}`);
+});
+app.get("/stations/delete/reading/:id", function (request, response) {
+    dbClient.query("select user_id from weatherdata w join stations s on w.station_id=s.id where w.id=$1", [request.params.id],function (dbError, dbResponseUser) {
+        if (dbResponseUser.rows.length === 0) {
+            response.render("error", {text: "Ups! Station nicht gefunden"});
+        } else {
+            if (dbResponseUser.rows[0].user_id === 1) {
+                dbClient.query(" delete from weatherdata  where id=$1", [request.params.id])
+            }
+        }
+        response.redirect(`/stations/${request.params.id}`);
+    })
 });
 
 app.listen(PORT, function () {

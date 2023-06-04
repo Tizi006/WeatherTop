@@ -36,6 +36,9 @@ block content
                     td=set.temperature
                     td=set.wind
                     td=set.pressure
+                    td
+                        a(href=`/stations/delete/reading/${set.id}`)
+                            img(src="/images/icons/x-circle.svg")
         form(action=`/stations/${station.id}` method="post" class="blur-box small-font font-bold")
             div(class="input-values")
                 label(for="code") Code
