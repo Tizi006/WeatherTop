@@ -3,12 +3,12 @@ html
         title Weathertop
         block head-elements
     body
+        script(src="/scripts/helpers.js")
         nav
             a(href='/' class="medium-font font-bold") Weathertop
             a(href='/dashboard' class="medium-font") Dashboard
             svg( id="nav-background" viewBox="0 0 960 540" width="960" height="540" xmlns="http://www.w3.org/2000/svg")
                 g( transform="translate(2.3625744274706477 13.453755726210467)")
                     path( d="M225.7 -118C256.6 -76.8 221 15.1 172.3 57.3C123.6 99.5 61.8 91.9 -17.2 101.8C-96.1 111.8 -192.3 139.1 -226.6 105.2C-261 71.3 -233.5 -23.8 -185.5 -74.9C-137.4 -126 -68.7 -133 14.4 -141.3C97.4 -149.6 194.9 -159.2 225.7 -118" fill="#acacac" fill-opacity="70%")
-
         block content
         script(src="/scripts/hideNav.js")

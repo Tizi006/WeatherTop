@@ -43,34 +43,10 @@ cards.forEach((card, index) => {
         const newcard = (document.querySelector('#new-card'));
         newcard.style.animationDelay = `${(cards.length-1) * 0.4}s`
         // Handles background
-        let img;
         const weathercode = card.querySelector('.weather-code').textContent;
-        switch (weathercode) {
-            case "200": //Thunderstorm
-                img = "../images/thunderstrom.jpg";
-                break;
-            case "300": //drizzle
-                img = "../images/drizzle.jpg";
-                break;
-            case "500": //Rain
-                img = "../images/rain.jpg";
-                break;
-            case "600": //Snow
-                img = "../images/snow.jpg";
-                break;
-            case "700": //mist
-                img = "../images/mist.jpg";
-                break;
-            case "800": //clear
-                img = "../images/cloudy.jpg";
-                break;
-            default: //sunset
-                img = "../images/sunset.jpg";
-                break;
-        }
         const cardId = `card-${index}`;
         card.setAttribute('id', cardId);
-        document.getElementById(cardId).style.backgroundImage = `url("../images/waves.svg"), url(${img})`;
+        document.getElementById(cardId).style.backgroundImage = `url("../images/waves.svg"), url(${getImg(weathercode)})`;
     }
 );
 
