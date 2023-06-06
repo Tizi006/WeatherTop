@@ -2,7 +2,7 @@
 @import "standards.css";
 
 .detailed-card,table,.blur-box,input{
-    border-style: groove;
+    border-style: solid;
     border-color: var(--Textcolor);
     border-radius: 20px;
 }
@@ -48,7 +48,7 @@ table,.blur-box {
 td,th {
     text-align: start;
     border-color: var(--Textcolor);
-    border-bottom-style: groove;
+    border-bottom-style: solid;
     border-width: 1px;
 }
 th{

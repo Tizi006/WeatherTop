@@ -1,10 +1,34 @@
-extends navbar.pug
-block head-elements
-    head
-        link(rel="stylesheet", href="../styles/firstlayer.css")
-block content
+head
+    link(rel="stylesheet", href="../styles/firstlayer.css")
+body
+    nav
+        span(class="medium-font font-bold") Weathertop
+        img(src="/images/navsmall.svg" id="nav-background")
+    div(class="action-container medium-font")
+        div(id="sign-in-container")
+            form(action="/signIn" method="post" id="login-send")
+                label(for="email") E-Mail:
+                input(type="Email" name="email" placeholder="Email" class="input-field small-font" id="email")
+                label(for="password") Passwort:
+                input(type="Password" name="password" placeholder="Passwort" class="input-field small-font" id="password")
+                input(type="submit" class="submit-button small-font font-bold" value="Einloggen")
+        div(id="sign-up-container")
+            form(action="/signUp" method="post" id="signup-send")
+                label(for="newemail") E-Mail:
+                input(type="Email" name="newemail" placeholder="Email" class="input-field small-font" id="newemail")
+                label(for="username") Vorname:
+                input(type="text" name="username" placeholder="Vorname" class="input-field small-font" id="username")
+                label(for="usersurname") Nachname:
+                input(type="text" name="usersurname" placeholder="Nachname" class="input-field small-font" id="usersurname")
+                label(for="newpassword") Passwort:
+                input(type="Password" name="newpassword" placeholder="Passwort" class="input-field small-font" id="newpassword")
+                input(type="submit" class="submit-button small-font font-bold" value="Registrieren")
+        div(id="button-container")
+            button( class="send-button small-font font-bold" id="login-button") Einloggen
+            button( class="send-button small-font font-bold" id="sign-up-button") Registrieren
     div(class="fill")
         img(src="images/wavesRight.svg" id="background-waves")
+    script(src="../scripts/login.js")
 
 
 

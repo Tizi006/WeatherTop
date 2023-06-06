@@ -23,13 +23,21 @@ nav {
 
 }
 
-#nav-background {
+#nav-background, #nav-background-logout{
     position: fixed;
-    left: 0;
     top: 0;
-    width: 1300px;
-    height: 500px;
     z-index: -1;
+}
+#nav-background{
+    left: 0;
+}
+#nav-background-logout{
+    right: 0;
+}
+#nav-logout{
+    position: fixed;
+    top: 20px;
+    right: 30px;
 }
 
 a {
@@ -66,7 +74,9 @@ a {
     font-size: 30px;
 
 }
-
+input{
+    z-index: 1000;
+}
 .large-font {
     font-size: 35px;
 }

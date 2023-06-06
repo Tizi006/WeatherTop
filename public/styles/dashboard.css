@@ -124,3 +124,6 @@ form {
 #wind-view, #pressure-view {
     display: none;
 }
+#dashboard-link{
+    visibility: hidden;
+}

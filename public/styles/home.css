@@ -30,14 +30,41 @@
     0% {width: 400%}
     100%{ width: 100%}
 }
-.login-box{
+
+.action-container{
+    display: flex;
+    flex-direction: column;
+    z-index: 99;
+    position: fixed;
+    right: 10%;
+    top:15%;
+    backdrop-filter: blur(20px);
+    border-style: solid;
+    border-color: var(--Textcolor);
+    border-radius: 20px;
+    width: 40%;
+
+    opacity: 0;
     animation: load-login 1s ease-in-out forwards;
     animation-delay: 2.5s;
 }
-
 @keyframes load-login {
     0% {opacity: 0}
     100%{opacity: 100}
+}
+#button-container{
+    display: flex;
+    justify-content: space-around;
+    border-top-style: solid;
+}
+.send-button{
+    border-style: none;
+    background: none;
+    height: 70px;
+    width: 100%;
+}
+.active-button{
+    background-color: rgba(60, 66, 97,0.5);
 }
 
 
