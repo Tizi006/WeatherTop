@@ -1,0 +1,18 @@
+.parameter-box {
+    display: flex;
+    color: var(--Textcolor);
+    gap: 10px;
+    padding: 10px;
+}
+.data-box, .text-box{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.data-box{
+    gap: 20px;
+}
+.text-box{
+    gap: 5px;
+}
+

@@ -4,24 +4,48 @@ block head-elements
         link(rel="stylesheet", href="../../styles/station.css")
 block content
     div(class="detailed-card")
-        div(class="detailed-card-parameter-box")
+        div(class="all-parameter-box")
             div(class="parameter-box")
-                div(class="large-font font-bold")=station.name
-                div(class="small-font")=`Lat: ${station.lat}`
-                div(class="small-font")=`Lon: ${station.lon}`
+                div(class="data-box")
+                    div(class="large-font font-bold")=station.name
+                    div(class="text-box")
+                        div(class="small-font")=`Lat: ${station.lat}`
+                        div(class="small-font")=`Lon: ${station.lon}`
             div(class="parameter-box")
-                div(class="detailed-weather-box")
+                div(class="data-box")
                     div(class="large-font font-bold") Weather
-                div(class="small-font weather-code")=data[0].weathercode
+                    div(class="small-font weather-code")=data[0].weathercode
             div(class="parameter-box")
-                div(class="large-font font-bold") Temperatur
-                div(class="small-font")=`${data[0].temperature} Grad`
+                div(class="data-box")
+                    div(class="large-font font-bold") Temperatur
+                    div(class="text-box")
+                        div(class="small-font")=`${data[0].temperature}°C`
+                        div(class="small-font")=`Max: ${minmax.maxtemp}°C`
+                        div(class="small-font")=`Min: ${minmax.mintemp}°C`
+                div(class="data-box")
+                    img(src="/images/icons/temperature/thermometer.svg")
+                    img(src="/images/icons/arrow-right.svg")
             div(class="parameter-box")
-                div(class="large-font font-bold") Wind
-                div(class="small-font")=`${data[0].wind} pft`
+                div(class="data-box")
+                    div(class="large-font font-bold") Wind
+                    div(class="text-box")
+                        div(class="small-font")=`${data[0].wind} pft`
+                        div(class="small-font")=`Max: ${minmax.maxwind}`
+                        div(class="small-font")=`Min: ${minmax.minwind}`
+                div(class="data-box")
+                    img(src="/images/icons/wind.svg")
+                    img(src="/images/icons/arrow-right.svg")
             div(class="parameter-box")
-                div(class="large-font font-bold") Luftdruck
-                div(class="small-font")=`${data[0].pressure} hpa`
+                div(class="data-box")
+                    div(class="large-font font-bold") Luftdruck
+                    div(class="text-box")
+                        div(class="small-font")=`${data[0].pressure} hpa`
+                        div(class="small-font")=`${data[0].winddirection}`
+                        div(class="small-font")=`Max: ${minmax.maxpressure}`
+                        div(class="small-font")=`Min: ${minmax.minpressure}`
+                div(class="data-box")
+                    img(src="/images/icons/speedometer.svg")
+                    img(src="/images/icons/arrow-right.svg")
         table(class= "small-font")
             tr
                 th Zeitpunkt

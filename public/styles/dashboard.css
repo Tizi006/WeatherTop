@@ -63,11 +63,7 @@
     height: 22%;
 }
 
-.weather-box {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-}
+
 
 .actions {
     display: flex;
@@ -75,16 +71,6 @@
     margin-left: 10px;
     gap: 10px;
     height: 40px;
-
-}
-
-.location, .weather {
-    color: white;
-}
-
-.weather {
-    padding-right: 10px;
-    padding-top: 5px;
 }
 
 .icons {

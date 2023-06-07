@@ -119,8 +119,7 @@ app.get("/stations/delete/:id", function (request, response) {
             if (dbResponseUser.rows[0].user_id === request.session.user) {
                 dbClient.query(" delete from stations where id=$1", [request.params.id])
                 await dbClient.query(" delete from weatherdata where station_id=$1", [request.params.id])
-            }
-            else {
+            } else {
                 response.render("error", {text: "Ups! Station gehört einen anderen User"});
             }
         }
@@ -130,35 +129,68 @@ app.get("/stations/delete/:id", function (request, response) {
 
 //Station
 app.get("/stations/:id", function (request, response) {
-    dbClient.query("select w.id, weathercode ,temperature ,wind ,pressure ,time from stations s join weatherdata w on s.id =w.station_id where station_id =$1 order by time desc", [request.params.id],
+    //first single values
+    dbClient.query("select w.id, weathercode ,temperature ,wind,winddirection ,pressure ,time from stations s join weatherdata w on s.id =w.station_id where station_id =$1 order by time desc", [request.params.id],
         function (dbError, dbResponse) {
-            dbClient.query("select * from stations where id=$1", [request.params.id], function (dbError, dbResponseStation) {
-                if (dbResponseStation.rows.length === 0) {
-                    response.render("error", {text: "Ups! Station nicht gefunden"});
-                } else {
-                    if (dbResponseStation.rows[0].user_id === request.session.user) {
-                        if (dbResponse.rows.length === 0) {
-                            const d = []
-                            d.push({
-                                id: "",
-                                weathercode: "undefined",
-                                temperature: "undefined",
-                                wind: "undefined",
-                                pressure: "undefined",
-                                time: "undefined"
-                            });
-                            response.render("Station", {data: d, station: dbResponseStation.rows[0]});
+            //minMaxValues
+            dbClient.query("WITH weather_trends AS (select case WHEN temperature < lag(temperature) OVER (ORDER BY time DESC) THEN 1 WHEN temperature > lag(temperature) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS temperature_trend, case WHEN wind < lag(wind) OVER (ORDER BY time DESC) THEN 1 WHEN wind > lag(wind) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS wind_trend, case WHEN pressure < lag(pressure) OVER (ORDER BY time DESC) THEN 1 WHEN pressure > lag(pressure) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS pressure_trend from weatherdata where station_id = $1 ORDER by time desc LIMIT 2) select wt.temperature_trend, wt.wind_trend, wt.pressure_trend, s.mintemp, s.maxtemp, s.minwind, s.maxwind, s.minpressure, s.maxpressure FROM weather_trends wt CROSS JOIN ( SELECT min(temperature) AS mintemp, max(temperature) AS maxtemp, min(wind) AS minwind, max(wind) AS maxwind, min(pressure) AS minpressure, max(pressure) AS maxpressure FROM stations s JOIN weatherdata w ON s.id = w.station_id WHERE s.id = $1) s OFFSET 1 FETCH FIRST ROW ONLY;",
+                [request.params.id],
+                function (dbError, dbResponseMinMax) {
+                    //for each reading
+                    dbClient.query("select * from stations where id=$1", [request.params.id],
+                        function (dbError, dbResponseStation) {
+                        if (dbResponseStation.rows.length === 0) {
+                            response.render("error", {text: "Ups! Station nicht gefunden"});
                         } else {
-                            response.render("Station", {
-                                data: dbResponse.rows,
-                                station: dbResponseStation.rows[0]
-                            });
+                            if (dbResponseStation.rows[0].user_id === request.session.user) {
+                                //if no readings
+                                if (dbResponse.rows.length === 0) {
+                                    const d = []
+                                    d.push({
+                                        id: "",
+                                        weathercode: "undefined",
+                                        temperature: "undefined",
+                                        wind: "undefined",
+                                        winddirection:"undefined",
+                                        pressure: "undefined",
+                                        time: "undefined"
+                                    });
+                                    response.render("Station", {data: d, station: dbResponseStation.rows[0]});
+                                } else {
+                                    //if no minMax Values
+                                    if (dbResponseMinMax.rows.length === 0) {
+                                        const minmax = [];
+                                        minmax.push({
+                                            mintemp: dbResponse.rows[0].temperature,
+                                            maxtemp: dbResponse.rows[0].temperature,
+                                            minwind: dbResponse.rows[0].wind,
+                                            maxwind: dbResponse.rows[0].wind,
+                                            minpressure: dbResponse.rows[0].pressure,
+                                            maxpressure: dbResponse.rows[0].pressure,
+                                            temperature_trend: 0,
+                                            wind_trend: 0,
+                                            pressure_trend: 0
+                                        })
+                                        response.render("Station", {
+                                            data: dbResponse.rows,
+                                            station: dbResponseStation.rows[0],
+                                            minmax: minmax
+                                        });
+                                    } else {
+                                        response.render("Station", {
+                                            data: dbResponse.rows,
+                                            station: dbResponseStation.rows[0],
+                                            minmax: dbResponseMinMax.rows[0]
+                                        });
+                                    }
+                                }
+                            } else {
+                                response.render("error", {text: "Ups! Station gehört einen anderen User"});
+                            }
                         }
-                    } else {
-                        response.render("error", {text: "Ups! Station gehört einen anderen User"});
-                    }
-                }
-            })
+                    })
+
+                })
         })
 });
 app.post("/stations/:id", urlencodedParser, function (request, response) {
@@ -179,8 +211,7 @@ app.get("/stations/delete/reading/:id", function (request, response) {
         } else {
             if (dbResponseUser.rows[0].user_id === request.session.user) {
                 dbClient.query(" delete from weatherdata  where id=$1", [request.params.id])
-            }
-            else {
+            } else {
                 response.render("error", {text: "Ups! Station mit Reading gehört einen anderen User"});
             }
         }

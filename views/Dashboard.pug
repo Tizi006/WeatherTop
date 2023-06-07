@@ -1,7 +1,7 @@
 extends navbar.pug
 block head-elements
     head
-        link(rel="stylesheet", href="../styles/firstlayer.css")
+        link(rel="stylesheet", href="/styles/firstlayer.css")
 block content
     div(class="card-Container")
         each set in data
@@ -12,7 +12,7 @@ block content
                         div(class="small-font")=`Lat: ${set.lat}`
                         div(class="small-font")=`Lon: ${set.lon}`
                     div(class="weather")
-                        div(class="weather-box")
+                        div(class="data-box")
                             div(class="medium-font font-bold") Weather
                         div(class="small-font weather-code")=set.weathercode
                 div(class="card-bottom-box font-color")

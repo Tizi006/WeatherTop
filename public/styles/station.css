@@ -1,5 +1,6 @@
 @import "responsive.css";
 @import "standards.css";
+@import "infoblocks.css";
 
 .detailed-card,table,.blur-box,input{
     border-style: solid;
@@ -20,24 +21,14 @@
     100%{opacity: 1}
 }
 
-.parameter-box {
-    display: flex;
-    flex-direction: column;
-    color: var(--Textcolor);
-}
-
-.detailed-card-parameter-box {
+.all-parameter-box {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     height: 200px
 }
 
-.detailed-weather-box {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-}
+
 /*table*/
 table,.blur-box {
     backdrop-filter: blur(10px);
