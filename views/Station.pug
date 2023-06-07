@@ -19,33 +19,33 @@ block content
                 div(class="data-box")
                     div(class="large-font font-bold") Temperatur
                     div(class="text-box")
-                        div(class="small-font")=`${data[0].temperature}°C`
+                        div(class="small-font temp-number")=`${data[0].temperature}°C`
                         div(class="small-font")=`Max: ${minmax.maxtemp}°C`
                         div(class="small-font")=`Min: ${minmax.mintemp}°C`
                 div(class="data-box")
-                    img(src="/images/icons/temperature/thermometer.svg")
-                    img(src="/images/icons/arrow-right.svg")
+                    img(src="/images/icons/temperature/thermometer.svg" class="temp-img" alt=data[0].temperature)
+                    img(src="/images/icons/arrow-right.svg" class="temp-trend" alt=minmax.temperature_trend)
             div(class="parameter-box")
                 div(class="data-box")
                     div(class="large-font font-bold") Wind
                     div(class="text-box")
                         div(class="small-font")=`${data[0].wind} pft`
+                        div(class="small-font wind-dir")=`Richtung: ${data[0].winddirection}`
                         div(class="small-font")=`Max: ${minmax.maxwind}`
                         div(class="small-font")=`Min: ${minmax.minwind}`
                 div(class="data-box")
                     img(src="/images/icons/wind.svg")
-                    img(src="/images/icons/arrow-right.svg")
+                    img(src="/images/icons/arrow-right.svg" class="wind-trend" alt=minmax.wind_trend)
             div(class="parameter-box")
                 div(class="data-box")
                     div(class="large-font font-bold") Luftdruck
                     div(class="text-box")
                         div(class="small-font")=`${data[0].pressure} hpa`
-                        div(class="small-font")=`${data[0].winddirection}`
                         div(class="small-font")=`Max: ${minmax.maxpressure}`
                         div(class="small-font")=`Min: ${minmax.minpressure}`
                 div(class="data-box")
                     img(src="/images/icons/speedometer.svg")
-                    img(src="/images/icons/arrow-right.svg")
+                    img(src="/images/icons/arrow-right.svg" class="pressure-trend" alt=minmax.pressure_trend)
         table(class= "small-font")
             tr
                 th Zeitpunkt
