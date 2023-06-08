@@ -12,6 +12,6 @@ document.querySelector('.temp-trend').src=getTrend(temp)
 document.querySelector('.wind-trend').src=getTrend(wind)
 document.querySelector('.pressure-trend').src=getTrend(pressure)
 //windDirection
-document.querySelector('.wind-dir').textContent =translateWindDirection(parseFloat(document.querySelector('.wind-dir').textContent.trim().substring(document.querySelector('.wind-dir').textContent.length-1)))
+document.querySelector('.wind-dir').textContent =translateWindDirection(parseFloat(document.querySelector('.wind-dir').textContent))
 //temp
 document.querySelector('.temp-img').src=getTemp(document.querySelector('.temp-img').alt)

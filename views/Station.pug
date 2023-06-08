@@ -30,7 +30,7 @@ block content
                     div(class="large-font font-bold") Wind
                     div(class="text-box")
                         div(class="small-font")=data.length > 0 ? `${data[0].wind} pft`:''
-                        div(class="small-font wind-dir")=data.length > 0 ? `Richtung: ${data[0].winddirection}`:''
+                        div(class="small-font wind-dir")=data.length > 0 ? data[0].winddirection:''
                         div(class="small-font")=minmax && minmax.maxwind ? `Max: ${minmax.maxwind}`:''
                         div(class="small-font")=minmax && minmax.minwind ?`Min: ${minmax.minwind}`:''
                 div(class="data-box")
