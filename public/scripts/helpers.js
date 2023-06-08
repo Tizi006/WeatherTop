@@ -52,25 +52,19 @@ function translateCode(weathercode){
     }
 }
 function translateWindDirection(direction) {
-    console.log(direction)
     direction = parseFloat(direction);
     direction = (direction + 360) % 360;
-
     const directions = [
         'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW',
         'WSW', 'W', 'WNW', 'NW', 'NNW'
     ];
 
-    // Normalize the angle to ensure it falls within the range [0, 360)
+    // range [0, 360)
     const normalizedAngle = ((direction % 360) + 360) % 360;
-
-    // Calculate the index based on the normalized angle
     const index = Math.floor(normalizedAngle / 22.5);
-
     // Return the corresponding direction
-    return"Richtung: "+ directions[index];
+    return index>=0&&index<=15? "Richtung: "+ directions[index]:'';
 }
-
 function getTrend(trendcode){
     switch (trendcode) {
         case "-1": //down

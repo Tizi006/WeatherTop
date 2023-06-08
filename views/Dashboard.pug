@@ -20,9 +20,34 @@ block content
                     button(class="displayed-selector small-font font-bold" data-target="wind") Wind
                     button(class="displayed-selector small-font font-bold" data-target="pressure") Luftdruck
                 div(class="card-bottom-content small-font font-bold")
-                    div(class="card-data temp-data")=`${set.temperature} Grad`
-                    div(class="card-data wind-data")=`${set.wind} pft`
-                    div(class="card-data pressure-data")=`${set.pressure} hpa`
+                    div(class="parameter-box temp-data")
+                        div(class="data-box")
+                            div(class="text-box")
+                                div(class="small-font temp-number")=set.temperature!=null?`${set.temperature}°C`:''
+                                div(class="small-font")=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].maxtemp ?`Max: ${minmax[data.indexOf(set)].maxtemp}°C`:''
+                                div(class="small-font")=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].mintemp ? `Min: ${minmax[data.indexOf(set)].mintemp}°C` : ''
+                        div(class="data-box")
+                            img(src="/images/icons/temperature/thermometer.svg" class="temp-img" alt=set.temperature)
+                            img(src="" class="temp-trend" alt=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].temperature_trend ? minmax[data.indexOf(set)].temperature_trend: '')
+                    div(class="parameter-box wind-data")
+                        div(class="data-box")
+                            div(class="text-box")
+                                div(class="small-font")=set.wind!=null?`${set.wind} pft`:''
+                                div(class="small-font wind-dir")=set.winddirection
+                                div(class="small-font")=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].maxwind ? `Max: ${minmax[data.indexOf(set)].maxwind}` : ''
+                                div(class="small-font")=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].minwind ? `Min: ${minmax[data.indexOf(set)].minwind}` : ''
+                        div(class="data-box")
+                            img(src="/images/icons/wind.svg")
+                            img(src="" class="wind-trend" alt=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].wind_trend ? minmax[data.indexOf(set)].wind_trend: '')
+                    div(class="parameter-box pressure-data")
+                        div(class="data-box")
+                            div(class="text-box")
+                                div(class="small-font")=set.pressure!=null?`${set.pressure} hpa`:''
+                                div(class="small-font")=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].maxpressure ? `Max: ${minmax[data.indexOf(set)].maxpressure}` : ''
+                                div(class="small-font")=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].minpressure ? `Min: ${minmax[data.indexOf(set)].minpressure}` : ''
+                        div(class="data-box")
+                            img(src="/images/icons/speedometer.svg")
+                            img(src="" class="pressure-trend" alt=minmax[data.indexOf(set)] && minmax[data.indexOf(set)].pressure_trend ? minmax[data.indexOf(set)].pressure_trend: '')
                 div(class="actions")
                     a(href=`/stations/${set.id}`)
                         img(src="/images/icons/folder.svg" class="actions")

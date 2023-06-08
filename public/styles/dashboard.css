@@ -106,9 +106,9 @@ form {
 .active {
     text-decoration: solid underline var(--Textcolor);
 }
-
-#wind-view, #pressure-view {
-    display: none;
+.parameter-box{
+    justify-content: space-between;
+    width: 100%;
 }
 #dashboard-link{
     visibility: hidden;

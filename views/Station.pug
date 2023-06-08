@@ -24,7 +24,7 @@ block content
                         div(class="small-font")=minmax && minmax.maxtemp ? `Min: ${minmax.mintemp}°C`:''
                 div(class="data-box")
                     img(src="/images/icons/temperature/thermometer.svg" class="temp-img" alt=data.length > 0 ?data[0].temperature:'')
-                    img(src="" class="temp-trend" alt=minmax && minmax.temperature ? minmax.temperature_trend:'')
+                    img(src="" class="temp-trend" alt=minmax && minmax.temperature_trend ? minmax.temperature_trend:'')
             div(class="parameter-box")
                 div(class="data-box")
                     div(class="large-font font-bold") Wind

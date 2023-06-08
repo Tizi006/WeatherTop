@@ -83,23 +83,53 @@ function signIn(request, response) {
 }
 
 //Dashboard
-app.get("/dashboard", function (request, response) {
-    dbClient.query(
-        "SELECT s.id, s.name,s.lat,s.lon, j.weathercode, j.temperature, j.wind, j.pressure FROM stations s LEFT JOIN ( SELECT station_id, weathercode, temperature, wind, pressure, time  FROM weatherdata w WHERE (station_id, time) IN (  SELECT station_id, MAX(time)  FROM weatherdata GROUP BY station_id  )  ) j ON s.id = j.station_id where user_id=$1",
-        [request.session.user],
-        function (dbError, dbResponseStations) {
-            if (dbError) {
-                console.error(dbError);
-                return;
-            }
-            if (request.session.user === undefined) {
-                response.redirect("/");
-            } else {
-                response.render("Dashboard", {data: dbResponseStations.rows});
-            }
+app.get("/dashboard", async function (request, response) {
+    if (request.session.user === undefined) {
+        response.redirect("/");
+    } else {
+        try {
+            //async structure needed for loading minmax values correctly
+            const dbResponseStations = await new Promise((resolve, reject) => {
+                dbClient.query(
+                    "SELECT s.id, s.name, s.lat, s.lon, j.weathercode, j.temperature, j.wind, j.winddirection, j.pressure FROM stations s LEFT JOIN (SELECT station_id, weathercode, temperature, wind, winddirection, pressure, time FROM weatherdata w WHERE (station_id, time) IN (SELECT station_id, MAX(time) FROM weatherdata GROUP BY station_id)) j ON s.id = j.station_id WHERE user_id = $1",
+                    [request.session.user],
+                    (dbError, dbResponseStations) => {
+                        if (dbError) {
+                            reject(dbError);
+                        } else {
+                            resolve(dbResponseStations);
+                        }
+                    }
+                );
+            });
+
+            const minmaxPromises = dbResponseStations.rows.map((row) => {
+                return new Promise((resolve, reject) => {
+                    dbClient.query(
+                        "WITH weather_trends AS (SELECT CASE WHEN temperature < LAG(temperature) OVER (ORDER BY time DESC) THEN 1 WHEN temperature > LAG(temperature) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS temperature_trend, CASE WHEN wind < LAG(wind) OVER (ORDER BY time DESC) THEN 1 WHEN wind > LAG(wind) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS wind_trend, CASE WHEN pressure < LAG(pressure) OVER (ORDER BY time DESC) THEN 1 WHEN pressure > LAG(pressure) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS pressure_trend FROM weatherdata WHERE station_id = $1 ORDER BY time DESC LIMIT 2) SELECT wt.temperature_trend, wt.wind_trend, wt.pressure_trend, s.mintemp, s.maxtemp, s.minwind, s.maxwind, s.minpressure, s.maxpressure FROM weather_trends wt CROSS JOIN (SELECT MIN(temperature) AS mintemp, MAX(temperature) AS maxtemp, MIN(wind) AS minwind, MAX(wind) AS maxwind, MIN(pressure) AS minpressure, MAX(pressure) AS maxpressure FROM stations s JOIN weatherdata w ON s.id = w.station_id WHERE s.id = $1) s OFFSET 1 FETCH FIRST ROW ONLY;",
+                        [row.id],
+                        (dbError, dbResponseMinMax) => {
+                            if (dbError) {
+                                reject(dbError);
+                            } else {
+                                if (dbResponseMinMax.rows.length === 0) {
+                                    resolve(null);
+                                } else {
+                                    resolve(dbResponseMinMax.rows[0]);
+                                }
+                            }
+                        }
+                    );
+                });
+            });
+            const minmax = await Promise.all(minmaxPromises);
+            response.render("Dashboard", { data: dbResponseStations.rows, minmax: minmax });
+        } catch (error) {
+            console.error(error);
         }
-    );
+    }
 });
+
 app.post("/dashboard", urlencodedParser, function (request, response) {
     if (request.body.titel !== "" && request.body.lat !== "" && request.body.lon !== "") {
         dbClient.query("insert into stations (name, lon, lat,user_id) values ($1,$2,$3,$4)", [request.body.titel, request.body.lat, request.body.lon, request.session.user],
