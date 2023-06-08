@@ -18,12 +18,12 @@ function getImg(weathercode){
 }
 function getTemp(temperature){
     const temperatues = [
-        { label: "/images/icons/temperature/thermometer-snow.svg",  max: -15 },
+        { label: "/images/icons/temperature/thermometer-snow.svg", min: -99999,  max: -15 },
         { label: "/images/icons/temperature/thermometer.svg", min: -15, max: 0 },
         { label: "/images/icons/temperature/thermometer-low.svg", min: 0, max: 15 },
         { label: "/images/icons/temperature/thermometer-half.svg", min: 15, max: 22 },
         { label: "/images/icons/temperature/thermometer-high.svg", min: 22, max: 25 },
-        { label: "/images/icons/temperature/thermometer-sun.svg", min: 30 }
+        { label: "/images/icons/temperature/thermometer-sun.svg", min: 30,max: 99999 }
     ];
     //Match directions
     for (let i = 0; i < temperatues.length; i++) {
@@ -48,7 +48,7 @@ function translateCode(weathercode){
         case 8: //clear
             return "Sonnig";
         default: //sunset
-            return "Sonnenuntergang\n(noch nicht festgelegt)";
+            return "";
     }
 }
 function translateWindDirection(direction) {
@@ -80,7 +80,7 @@ console.log(direction)
             return directions[i].label;
         }
     }
-    return "undefined";
+    return "";
 }
 function getTrend(trendcode){
     switch (trendcode) {
@@ -88,7 +88,9 @@ function getTrend(trendcode){
             return  "/images/icons/arrow-down-right.svg";
         case "1": //up
             return "/images/icons/arrow-up-right.svg";
-        default: //same
+        case"0": //same
             return "/images/icons/arrow-right.svg";
+        default: //none
+            return "";
     }
 }

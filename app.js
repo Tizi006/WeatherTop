@@ -129,61 +129,39 @@ app.get("/stations/delete/:id", function (request, response) {
 
 //Station
 app.get("/stations/:id", function (request, response) {
-    //first single values
-    dbClient.query("select w.id, weathercode ,temperature ,wind,winddirection ,pressure ,time from stations s join weatherdata w on s.id =w.station_id where station_id =$1 order by time desc", [request.params.id],
+    // First single values
+    dbClient.query("select w.id, weathercode, temperature, wind, winddirection, pressure, time from stations s join weatherdata w on s.id = w.station_id where station_id = $1 order by time desc", [request.params.id],
         function (dbError, dbResponse) {
-            //minMaxValues
-            dbClient.query("WITH weather_trends AS (select case WHEN temperature < lag(temperature) OVER (ORDER BY time DESC) THEN 1 WHEN temperature > lag(temperature) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS temperature_trend, case WHEN wind < lag(wind) OVER (ORDER BY time DESC) THEN 1 WHEN wind > lag(wind) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS wind_trend, case WHEN pressure < lag(pressure) OVER (ORDER BY time DESC) THEN 1 WHEN pressure > lag(pressure) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS pressure_trend from weatherdata where station_id = $1 ORDER by time desc LIMIT 2) select wt.temperature_trend, wt.wind_trend, wt.pressure_trend, s.mintemp, s.maxtemp, s.minwind, s.maxwind, s.minpressure, s.maxpressure FROM weather_trends wt CROSS JOIN ( SELECT min(temperature) AS mintemp, max(temperature) AS maxtemp, min(wind) AS minwind, max(wind) AS maxwind, min(pressure) AS minpressure, max(pressure) AS maxpressure FROM stations s JOIN weatherdata w ON s.id = w.station_id WHERE s.id = $1) s OFFSET 1 FETCH FIRST ROW ONLY;",
+            // MinMaxValues
+            dbClient.query("WITH weather_trends AS (select case WHEN temperature < lag(temperature) OVER (ORDER BY time DESC) THEN 1 WHEN temperature > lag(temperature) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS temperature_trend, case WHEN wind < lag(wind) OVER (ORDER BY time DESC) THEN 1 WHEN wind > lag(wind) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS wind_trend, case WHEN pressure < lag(pressure) OVER (ORDER BY time DESC) THEN 1 WHEN pressure > lag(pressure) OVER (ORDER BY time DESC) THEN -1 ELSE 0 END AS pressure_trend from weatherdata where station_id = $1 ORDER by time desc LIMIT 2) select wt.temperature_trend, wt.wind_trend, wt.pressure_trend, s.mintemp, s.maxtemp, s.minwind, s.maxwind, s.minpressure, s.maxpressure FROM weather_trends wt CROSS JOIN (SELECT min(temperature) AS mintemp, max(temperature) AS maxtemp, min(wind) AS minwind, max(wind) AS maxwind, min(pressure) AS minpressure, max(pressure) AS maxpressure FROM stations s JOIN weatherdata w ON s.id = w.station_id WHERE s.id = $1) s OFFSET 1 FETCH FIRST ROW ONLY;",
                 [request.params.id],
                 function (dbError, dbResponseMinMax) {
-                    //for each reading
+                    // For each reading
                     dbClient.query("select * from stations where id=$1", [request.params.id],
                         function (dbError, dbResponseStation) {
                             if (dbResponseStation.rows.length === 0) {
                                 response.render("error", {text: "Ups! Station nicht gefunden"});
                             } else {
                                 if (dbResponseStation.rows[0].user_id === request.session.user) {
-                                    //if no readings
-                                    if (dbResponse.rows.length === 0) {
-                                        dbResponse.rows[0]=({
-                                            id: "",
-                                            weathercode: "undefined",
-                                            temperature: "undefined",
-                                            wind: "undefined",
-                                            winddirection: "undefined",
-                                            pressure: "undefined",
-                                            time: "undefined"
-                                        });
-                                    }
-                                    //if no minMax Values
-                                    if (dbResponseMinMax.rows.length === 0) {
 
-                                        dbResponseMinMax.rows[0]=({
-                                            mintemp: dbResponse.rows[0].temperature,
-                                            maxtemp: dbResponse.rows[0].temperature,
-                                            minwind: dbResponse.rows[0].wind,
-                                            maxwind: dbResponse.rows[0].wind,
-                                            minpressure: dbResponse.rows[0].pressure,
-                                            maxpressure: dbResponse.rows[0].pressure,
-                                            temperature_trend: 0,
-                                            wind_trend: 0,
-                                            pressure_trend: 0
-                                        })
-                                    }
                                     response.render("Station", {
                                         data: dbResponse.rows,
                                         station: dbResponseStation.rows[0],
                                         minmax: dbResponseMinMax.rows[0]
                                     });
                                 } else {
-                                    response.render("error", {text: "Ups! Station gehört einen anderen User"});
+                                    response.render("error", {text: "Ups! Station gehört einem anderen User"});
                                 }
                             }
-                        })
-
-                })
+                        }
+                    )
+                    ;
+                });
         })
-});
+    ;
+})
+;
+
 app.post("/stations/:id", urlencodedParser, function (request, response) {
     if (request.body.code !== "" && request.body.temp !== "" && request.body.wind !== "" && request.body.winddir !== "" && request.body.pressure !== "") {
         dbClient.query("insert into weatherdata (station_id,weathercode,temperature,wind,winddirection,pressure) values($1,$2,$3,$4,$5,$6)", [request.params.id, request.body.code, request.body.temp, request.body.wind, request.body.winddir, request.body.pressure],
