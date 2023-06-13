@@ -76,4 +76,6 @@ block content
                 label(for="pressure") Luftdruck
                     input(type="text" name="pressure" class="input-field small-font" id="pressure")
             input(type="submit" value="Messung hinzufügen" class="submit-button small-font")
+        form(action=`/stations/autoReading/${station.id}/${station.name}` method="post" class="blur-box small-font font-bold")
+            input(type="submit" value="Automatische Messung hinzufügen" class="submit-button small-font")
     script(src="../scripts/changeImages.js")

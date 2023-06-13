@@ -69,3 +69,6 @@ th{
     flex-direction: row;
     gap: 20px;
 }
+label{
+    width: 100%;
+}

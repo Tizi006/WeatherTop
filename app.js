@@ -12,7 +12,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 //configure connection and connect to client
 pg.defaults.ssl = true;
-const dbClient = new pg.Client(process.env.DB_CON_STRING);
+const dbClient = new pg.Client({connectionString: process.env.DB_CON_STRING, ssl: {rejectUnauthorized: false}});
 dbClient.connect();
 
 app = express();
@@ -64,23 +64,7 @@ app.post("/signUp", urlencodedParser, function (request, response) {
     }
 });
 
-function signIn(request, response) {
-    if (request.body.email !== "" && request.body.password !== "") {
-        dbClient.query("select id from users where email=$1 and password=$2", [request.body.email, request.body.password],
-            function (dbError, dbResponse) {
-                if (dbError) {
-                    console.error(dbError);
-                }
-                if (dbResponse.rows.length !== 0) {
-                    //login
-                    request.session.user = dbResponse.rows[0].id;
-                    response.redirect("/Dashboard");
-                } else {
-                    response.redirect("/");
-                }
-            })
-    }
-}
+
 
 //Dashboard
 app.get("/dashboard", async function (request, response) {
@@ -123,14 +107,26 @@ app.get("/dashboard", async function (request, response) {
                 });
             });
             const minmax = await Promise.all(minmaxPromises);
-            response.render("Dashboard", { data: dbResponseStations.rows, minmax: minmax });
+            response.render("Dashboard", {data: dbResponseStations.rows, minmax: minmax});
         } catch (error) {
             console.error(error);
         }
     }
 });
 
-app.post("/dashboard", urlencodedParser, function (request, response) {
+app.post("/dashboard", urlencodedParser, async function (request, response) {
+    //set lat/lon automatically
+    if (request.body.titel !== "" && request.body.lat === "" && request.body.lon === "") {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${request.body.titel}&appid=${process.env.API_KEY}`;
+        const apiresponse = await fetch(url);
+        const apidata = await apiresponse.json();
+        console.log(apidata)
+        if (apiresponse.status === 200) {
+            request.body.lat=apidata.coord.lat;
+            request.body.lon=apidata.coord.lon;
+
+        }
+    }
     if (request.body.titel !== "" && request.body.lat !== "" && request.body.lon !== "") {
         dbClient.query("insert into stations (name, lon, lat,user_id) values ($1,$2,$3,$4)", [request.body.titel, request.body.lat, request.body.lon, request.session.user],
             function (dbError) {
@@ -141,6 +137,7 @@ app.post("/dashboard", urlencodedParser, function (request, response) {
     }
     response.redirect("/dashboard");
 });
+
 app.get("/stations/delete/:id", function (request, response) {
     dbClient.query("select user_id from stations where id=$1", [request.params.id], async function (dbError, dbResponseUser) {
         if (dbResponseUser.rows.length === 0) {
@@ -190,19 +187,32 @@ app.get("/stations/:id", function (request, response) {
         })
     ;
 })
-;
 
 app.post("/stations/:id", urlencodedParser, function (request, response) {
     if (request.body.code !== "" && request.body.temp !== "" && request.body.wind !== "" && request.body.winddir !== "" && request.body.pressure !== "") {
-        dbClient.query("insert into weatherdata (station_id,weathercode,temperature,wind,winddirection,pressure) values($1,$2,$3,$4,$5,$6)", [request.params.id, request.body.code, request.body.temp, request.body.wind, request.body.winddir, request.body.pressure],
-            function (dbError) {
-                if (dbError) {
-                    console.error(dbError);
-                }
-            })
+        addReading(request);
     }
     response.redirect(`/stations/${request.params.id}`);
 });
+
+app.post("/stations/autoReading/:id/:name", urlencodedParser, async function (request, response) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${request.params.name}&appid=${process.env.API_KEY}&units=metric`;
+    const apiresponse = await fetch(url);
+    const apidata = await apiresponse.json();
+    if (apiresponse.status !== 200) {
+        response.render("error", {text: `Ups! Station mit Namen: ${request.params.name} nicht in Real-live gefunden`});
+    } else {
+        console.log(apidata)
+        request.body.code=apidata.weather[0].id;
+        request.body.temp=apidata.main.temp;
+        request.body.wind=apidata.wind.speed;
+        request.body.winddir=apidata.wind.deg;
+        request.body.pressure=apidata.main.pressure;
+        addReading(request);
+        response.redirect("back");
+    }
+})
+
 app.get("/stations/delete/reading/:id", function (request, response) {
     dbClient.query("select user_id, station_id from weatherdata w join stations s on w.station_id=s.id where w.id=$1", [request.params.id], function (dbError, dbResponseUser) {
         if (dbResponseUser.rows.length === 0) {
@@ -218,8 +228,37 @@ app.get("/stations/delete/reading/:id", function (request, response) {
     })
 });
 
+
 app.listen(PORT, function () {
     console.log(`Weathertop running and listening on port ${PORT}`);
 });
+
+//functions
+function signIn(request, response) {
+    if (request.body.email !== "" && request.body.password !== "") {
+        dbClient.query("select id from users where email=$1 and password=$2", [request.body.email, request.body.password],
+            function (dbError, dbResponse) {
+                if (dbError) {
+                    console.error(dbError);
+                }
+                if (dbResponse.rows.length !== 0) {
+                    //login
+                    request.session.user = dbResponse.rows[0].id;
+                    response.redirect("/Dashboard");
+                } else {
+                    response.redirect("/");
+                }
+            })
+    }
+}
+
+function addReading(request) {
+    dbClient.query("insert into weatherdata (station_id,weathercode,temperature,wind,winddirection,pressure) values($1,$2,$3,$4,$5,$6)", [request.params.id, request.body.code, request.body.temp, request.body.wind, request.body.winddir, request.body.pressure],
+        function (dbError) {
+            if (dbError) {
+                console.error(dbError);
+            }
+        })
+}
 
 
