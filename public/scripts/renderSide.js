@@ -15,3 +15,19 @@ document.querySelector('.pressure-trend').src=getTrend(pressure)
 document.querySelector('.wind-dir').textContent =translateWindDirection(parseFloat(document.querySelector('.wind-dir').textContent))
 //temp
 document.querySelector('.temp-img').src=getTemp(document.querySelector('.temp-img').alt)
+
+//graph
+const stationName= document.querySelector('#station-name').textContent
+$.ajax({
+    url: `/stations/renderGraph/${stationName}`,
+    success: renderChart
+})
+
+function renderChart(data){
+    new frappe.Chart("#chart",{
+        data: data,
+        type: 'line',
+        height: 300,
+        colors: ["red","blue"]
+    })
+}

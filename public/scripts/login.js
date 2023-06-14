@@ -9,7 +9,6 @@ signUpForm.style.visibility = "collapse"
 
 function loginClick() {
     if (login.classList.contains("active-button")) {
-console.log("aaaaaaaa")
     } else {
         login.classList.add("active-button")
         signUp.classList.remove("active-button")

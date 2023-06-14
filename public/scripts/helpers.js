@@ -1,5 +1,5 @@
 function getImg(weathercode){
-    switch (weathercode/100) {
+    switch (Number.parseInt(weathercode/100)) {
         case 2: //Thunderstorm
             return  "/images/thunderstrom.jpg";
         case 3: //drizzle
@@ -21,9 +21,9 @@ function getTemp(temperature){
         { label: "/images/icons/temperature/thermometer-snow.svg", min: -99999,  max: -15 },
         { label: "/images/icons/temperature/thermometer.svg", min: -15, max: 0 },
         { label: "/images/icons/temperature/thermometer-low.svg", min: 0, max: 15 },
-        { label: "/images/icons/temperature/thermometer-half.svg", min: 15, max: 22 },
-        { label: "/images/icons/temperature/thermometer-high.svg", min: 22, max: 25 },
-        { label: "/images/icons/temperature/thermometer-sun.svg", min: 30,max: 99999 }
+        { label: "/images/icons/temperature/thermometer-half.svg", min: 15, max: 24 },
+        { label: "/images/icons/temperature/thermometer-high.svg", min: 24, max: 27 },
+        { label: "/images/icons/temperature/thermometer-sun.svg", min: 27,max: 99999 }
     ];
     //Match directions
     for (let i = 0; i < temperatues.length; i++) {
@@ -34,7 +34,7 @@ function getTemp(temperature){
     return "undefined";
 }
 function translateCode(weathercode){
-    switch (weathercode/100) {
+    switch (Number.parseInt(weathercode/100)) {
         case 2: //Thunderstorm
             return  "Gewitter";
         case 3: //drizzle

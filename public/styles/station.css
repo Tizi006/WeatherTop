@@ -2,7 +2,7 @@
 @import "standards.css";
 @import "infoblocks.css";
 
-.detailed-card,table,.blur-box,input{
+.detailed-card,table,.blur-box,input {
     border-style: solid;
     border-color: var(--Textcolor);
     border-radius: 20px;
@@ -30,7 +30,7 @@
 
 
 /*table*/
-table,.blur-box {
+table,.blur-box,#chart {
     backdrop-filter: blur(10px);
     padding: 5px;
     width: 100%
@@ -70,5 +70,10 @@ th{
     gap: 20px;
 }
 label{
-    width: 100%;
+    width: inherit;
+}
+#chart{
+    width: inherit;
+    border-style: dot-dash;
+    border-radius: 20px;
 }

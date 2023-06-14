@@ -7,7 +7,7 @@ block content
         div(class="all-parameter-box")
             div(class="parameter-box")
                 div(class="data-box")
-                    div(class="large-font font-bold")=station.name
+                    div(class="large-font font-bold" id="station-name")=station.name
                     div(class="text-box")
                         div(class="small-font")=`Lat: ${station.lat}`
                         div(class="small-font")=`Lon: ${station.lon}`
@@ -46,6 +46,7 @@ block content
                 div(class="data-box")
                     img(src="/images/icons/speedometer.svg")
                     img(src="" class="pressure-trend" alt=minmax && minmax.pressure_trend ?minmax.pressure_trend:'')
+        div(id="chart")
         table(class= "small-font")
             tr
                 th Zeitpunkt
@@ -61,7 +62,7 @@ block content
                     td=set.wind
                     td=set.pressure
                     td
-                        a(href=`/stations/delete/reading/${set.id}`)
+                        a(href=`/stations/delete/reading/${station.id}/${set.id}`)
                             img(src="/images/icons/x-circle.svg")
         form(action=`/stations/${station.id}` method="post" class="blur-box small-font font-bold")
             div(class="input-values")
@@ -78,4 +79,7 @@ block content
             input(type="submit" value="Messung hinzufügen" class="submit-button small-font")
         form(action=`/stations/autoReading/${station.id}/${station.name}` method="post" class="blur-box small-font font-bold")
             input(type="submit" value="Automatische Messung hinzufügen" class="submit-button small-font")
-    script(src="../scripts/changeImages.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js")
+    script(src="../scripts/renderSide.js")
+
