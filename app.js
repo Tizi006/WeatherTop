@@ -37,26 +37,24 @@ app.post("/signIn", urlencodedParser, function (request, response) {
     signIn(request, response);
 });
 app.post("/signUp", urlencodedParser, function (request, response) {
-    if (request.body.newemail !== "" && request.body.username !== "" && request.body.usersurname !== "" && request.body.newpassword !== "") {
-        dbClient.query("select email from users where email=$1 ", [request.body.newemail],
-            function (dbError, dbResponse) {
-                if (dbResponse.rows.length === 0) {
-                    //create new user
-                    dbClient.query("insert into users (email,name,surname,password) values($1,$2,$3,$4)", [request.body.newemail, request.body.username, request.body.usersurname, request.body.newpassword],
-                        function (dbError) {
-                            if (dbError) {
-                                console.error(dbError);
-                                response.redirect("/");
-                            } else {
-                                //setting emil and username to sign in
-                                request.body.email = request.body.newemail;
-                                request.body.password = request.body.newpassword
-                                signIn(request, response);
-                            }
-                        })
-                }
-            })
-    }
+    dbClient.query("select email from users where email=$1 ", [request.body.newemail],
+        function (dbError, dbResponse) {
+            if (dbResponse.rows.length === 0) {
+                //create new user
+                dbClient.query("insert into users (email,name,surname,password) values($1,$2,$3,$4)", [request.body.newemail, request.body.username, request.body.usersurname, request.body.newpassword],
+                    function (dbError) {
+                        if (dbError) {
+                            console.error(dbError);
+                            response.redirect("/");
+                        } else {
+                            //setting emil and username to sign in
+                            request.body.email = request.body.newemail;
+                            request.body.password = request.body.newpassword
+                            signIn(request, response);
+                        }
+                    })
+            }
+        })
 });
 
 
@@ -106,11 +104,12 @@ app.get("/dashboard", needUser, async function (request, response) {
     }
 });
 app.post("/dashboard", urlencodedParser, async function (request, response) {
-    //set lat/lon automatically
-    if (request.body.titel !== "" && request.body.lat === "" && request.body.lon === "") {
+    //set lat/lon automatically if lat/lon is empty
+    if (request.body.lat === "" && request.body.lon === "") {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${request.body.titel}&appid=${process.env.API_KEY}`;
         const apiresponse = await fetch(url);
         const apidata = await apiresponse.json();
+        console.log(apiresponse.status)
         if (apiresponse.status === 200) {
             request.body.lat = apidata.coord.lat;
             request.body.lon = apidata.coord.lon;
@@ -118,12 +117,13 @@ app.post("/dashboard", urlencodedParser, async function (request, response) {
         }
     }
     //Add Station if all data given
-    if (request.body.titel !== "" && request.body.lat !== "" && request.body.lon !== "") {
+    if (request.body.lat !== "" && request.body.lon !== "") {
         dbClient.query("insert into stations (name, lon, lat,user_id) values ($1,$2,$3,$4)", [request.body.titel, request.body.lat, request.body.lon, request.session.user],
             function (dbError) {
                 if (dbError) {
                     console.error(dbError);
                 }
+
             })
     }
     response.redirect("back");
@@ -156,10 +156,8 @@ app.get("/stations/:id", needUserAccess, function (request, response) {
                 });
         });
 });
-app.post("/stations/:id", urlencodedParser,async function (request, response) {
-    if (request.body.code !== "" && request.body.temp !== "" && request.body.wind !== "" && request.body.winddir !== "" && request.body.pressure !== "") {
-      await addReading(request);
-    }
+app.post("/stations/:id", urlencodedParser, async function (request, response) {
+    await addReading(request);
     response.redirect(`back`);
 });
 app.post("/stations/autoReading/:id/:name", urlencodedParser, async function (request, response) {
@@ -247,21 +245,19 @@ function needUserAccess(request, response, next) {
 
 //functions
 function signIn(request, response) {
-    if (request.body.email !== "" && request.body.password !== "") {
-        dbClient.query("select id from users where email=$1 and password=$2", [request.body.email, request.body.password],
-            function (dbError, dbResponse) {
-                if (dbError) {
-                    console.error(dbError);
-                }
-                if (dbResponse.rows.length !== 0) {
-                    //login
-                    request.session.user = dbResponse.rows[0].id;
-                    response.redirect("/Dashboard");
-                } else {
-                    response.redirect("/");
-                }
-            })
-    }
+    dbClient.query("select id from users where email=$1 and password=$2", [request.body.email, request.body.password],
+        function (dbError, dbResponse) {
+            if (dbError) {
+                console.error(dbError);
+            }
+            if (dbResponse.rows.length !== 0) {
+                //login
+                request.session.user = dbResponse.rows[0].id;
+                response.redirect("/Dashboard");
+            } else {
+                response.redirect("/");
+            }
+        })
 }
 function addReading(request) {
     //need promise to wait until query is done
@@ -280,6 +276,3 @@ function addReading(request) {
         );
     });
 }
-
-
-

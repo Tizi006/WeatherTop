@@ -53,7 +53,6 @@ function translateCode(weathercode){
 }
 function translateWindDirection(direction) {
     direction = parseFloat(direction);
-    direction = (direction + 360) % 360;
     const directions = [
         'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW',
         'WSW', 'W', 'WNW', 'NW', 'NNW'

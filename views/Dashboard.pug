@@ -56,11 +56,11 @@ block content
         div(class="Card medium-font" id="new-card")
             form(action="/dashboard" method="post")
                 label(for="titel") Name Wetterstation
-                input(type="text" name="titel" class="input-field small-font" id="titel")
+                input(type="text" name="titel" required class="input-field small-font" id="titel")
                 label(for="lat") Breitengrad
-                input(type="text" name="lat" class="input-field small-font" id="lat")
+                input(type="number" name="lat" step="0.0001" min="-90" max="90" class="input-field small-font" id="lat")
                 label(for="lon") Längengrad
-                input(type="text" name="lon" class="input-field small-font" id="lon")
+                input(type="number" name="lon" step="0.0001" min="-180" max="180" class="input-field small-font" id="lon")
                 input(type="submit" value="Station hinzufügen" class="submit-button small-font")
 
     script(src="scripts/changeDisplayedInfo.js")

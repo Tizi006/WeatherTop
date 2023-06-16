@@ -8,20 +8,20 @@ body
         div(id="sign-in-container")
             form(action="/signIn" method="post" id="login-send")
                 label(for="email") E-Mail:
-                input(type="Email" name="email" placeholder="Email" class="input-field small-font" id="email")
+                input(type="Email" name="email" placeholder="Email" required class="input-field small-font" id="email")
                 label(for="password") Passwort:
-                input(type="Password" name="password" placeholder="Passwort" class="input-field small-font" id="password")
+                input(type="Password" name="password" placeholder="Passwort" required class="input-field small-font" id="password")
                 input(type="submit" class="submit-button small-font font-bold" value="Einloggen")
         div(id="sign-up-container")
             form(action="/signUp" method="post" id="signup-send")
                 label(for="newemail") E-Mail:
-                input(type="Email" name="newemail" placeholder="Email" class="input-field small-font" id="newemail")
+                input(type="Email" name="newemail" placeholder="Email" required class="input-field small-font" id="newemail")
                 label(for="username") Vorname:
-                input(type="text" name="username" placeholder="Vorname" class="input-field small-font" id="username")
+                input(type="text" name="username" placeholder="Vorname" required class="input-field small-font" id="username")
                 label(for="usersurname") Nachname:
-                input(type="text" name="usersurname" placeholder="Nachname" class="input-field small-font" id="usersurname")
+                input(type="text" name="usersurname" placeholder="Nachname" required class="input-field small-font" id="usersurname")
                 label(for="newpassword") Passwort:
-                input(type="Password" name="newpassword" placeholder="Passwort" class="input-field small-font" id="newpassword")
+                input(type="Password" name="newpassword" placeholder="Passwort" required class="input-field small-font" id="newpassword")
                 input(type="submit" class="submit-button small-font font-bold" value="Registrieren")
         div(id="button-container")
             button( class="send-button small-font font-bold" id="login-button") Einloggen

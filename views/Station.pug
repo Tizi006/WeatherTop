@@ -67,19 +67,27 @@ block content
         form(action=`/stations/${station.id}` method="post" class="blur-box small-font font-bold")
             div(class="input-values")
                 label(for="code") Code
-                    input(type="text" name="code" class="input-field small-font" id="code")
+                    input(type="number" name="code" list="code-list" required class="input-field small-font" id="code")
+                        datalist(id="code-list")
+                            option 200
+                            option 300
+                            option 500
+                            option 600
+                            option 700
+                            option 800
                 label(for="temp") Temperatur
-                    input(type="text" name="temp" class="input-field small-font" id="temp")
+                    input(type="number"  name="temp" step="0.01" min="-273.15" required  class="input-field small-font" id="temp")
                 label(for="wind") Windgeschwindigkeit
-                    input(type="text" name="wind" class="input-field small-font" id="wind")
+                    input(type="number" name="wind" step="0.01" min="0" required  class="input-field small-font" id="wind")
                 label(for="winddir") Windrichtung
-                    input(type="text" name="winddir" class="input-field small-font" id="winddir")
+                    input(type="number" name="winddir"  min="0" max="360" required class="input-field small-font" id="winddir")
                 label(for="pressure") Luftdruck
-                    input(type="text" name="pressure" class="input-field small-font" id="pressure")
+                    input(type="number" name="pressure" required  class="input-field small-font" id="pressure")
             input(type="submit" value="Messung hinzufügen" class="submit-button small-font")
         form(action=`/stations/autoReading/${station.id}/${station.name}` method="post" class="blur-box small-font font-bold")
             input(type="submit" value="Automatische Messung hinzufügen" class="submit-button small-font")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js")
     script(src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js")
     script(src="../scripts/renderSide.js")
+
 
