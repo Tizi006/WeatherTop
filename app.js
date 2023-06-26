@@ -109,7 +109,6 @@ app.post("/dashboard", urlencodedParser, async function (request, response) {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${request.body.titel}&appid=${process.env.API_KEY}`;
         const apiresponse = await fetch(url);
         const apidata = await apiresponse.json();
-        console.log(apiresponse.status)
         if (apiresponse.status === 200) {
             request.body.lat = apidata.coord.lat;
             request.body.lon = apidata.coord.lon;

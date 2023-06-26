@@ -68,13 +68,6 @@ block content
             div(class="input-values")
                 label(for="code") Code
                     input(type="number" name="code" list="code-list" required class="input-field small-font" id="code")
-                        datalist(id="code-list")
-                            option 200
-                            option 300
-                            option 500
-                            option 600
-                            option 700
-                            option 800
                 label(for="temp") Temperatur
                     input(type="number"  name="temp" step="0.01" min="-273.15" required  class="input-field small-font" id="temp")
                 label(for="wind") Windgeschwindigkeit
@@ -86,6 +79,13 @@ block content
             input(type="submit" value="Messung hinzufügen" class="submit-button small-font")
         form(action=`/stations/autoReading/${station.id}/${station.name}` method="post" class="blur-box small-font font-bold")
             input(type="submit" value="Automatische Messung hinzufügen" class="submit-button small-font")
+    datalist(id="code-list")
+        option 200
+        option 300
+        option 500
+        option 600
+        option 700
+        option 800
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js")
     script(src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js")
     script(src="../scripts/renderSide.js")
