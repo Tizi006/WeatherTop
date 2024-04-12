@@ -1,1 +1,1 @@
-# a bew based weather application
+# a web based weather application
