@@ -19,7 +19,7 @@
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/weathertop.git
+git clone https://github.com/Tizi006/WeatherTop.git
 ```
 ### 2. Setup .env
 ```bash
