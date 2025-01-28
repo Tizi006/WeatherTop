@@ -5,15 +5,15 @@ const signUpForm = document.getElementById("sign-up-container");
 login.addEventListener('click', loginClick);
 signUp.addEventListener('click', signUpClick);
 login.classList.add("active-button");
-signUpForm.style.visibility = "collapse"
+signUpForm.style.display = "none";
 
 function loginClick() {
     if (login.classList.contains("active-button")) {
     } else {
         login.classList.add("active-button")
         signUp.classList.remove("active-button")
-        loginForm.style.visibility = "visible"
-        signUpForm.style.visibility = "collapse"
+        loginForm.style.display = "block";
+        signUpForm.style.display = "none";
     }
 }
 
@@ -23,6 +23,6 @@ function signUpClick() {
     } else {
     signUp.classList.add("active-button")
     login.classList.remove("active-button")
-    signUpForm.style.visibility = "visible"
-    loginForm.style.visibility = "collapse"
+        signUpForm.style.display = "block";
+        loginForm.style.display = "none";
 }}
