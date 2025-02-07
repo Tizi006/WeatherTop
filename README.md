@@ -15,6 +15,9 @@
 - **PostgreSQL**: Database for storing user and weather data.
 - **OpenWeatherMap API**: Fetches real-time weather data.
 
+## Demo
+You can try out **WeatherTop** on my server (if it's currently online). Visit the website here: [WeatherTop Demo](https://weathertop.tizian-zimmermann.de)
+
 ## Setup
 
 ### 1. Clone the repository
