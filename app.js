@@ -22,8 +22,8 @@ app.set("views", "views");
 app.set("view engine", "pug");
 //session
 app.use(session({
-    secret: "thisIsTotallySecret",
-    cookie: {maxAge: 999999999},
+    secret: process.env.SESSION_SECRET,
+    cookie: {maxAge: 3600000},
     resave: false,
     saveUninitialized: false,
 }));
