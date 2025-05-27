@@ -25,6 +25,7 @@ You can try out **WeatherTop** on my server (if it's currently online). Visit th
 git clone https://github.com/Tizi006/WeatherTop.git
 ```
 ### 2. Setup .env
+Currently you have to replace the placeholders in DB_CON_STRING
 ```bash
 # .env file
 PORT=80
@@ -33,6 +34,7 @@ POSTGRES_USER=
 POSTGRES_PASSWORD=
 POSTGRES_DB=
 API_KEY=
+SESSION_SECRET=
 ```
 ### 3. Compose
 ```bash
